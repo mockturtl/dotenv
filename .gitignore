@@ -3,4 +3,5 @@
 build/
 packages
 pubspec.lock
-.env
+.env*
+!example/.env.example
