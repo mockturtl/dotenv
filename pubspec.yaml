@@ -1,0 +1,11 @@
+name: dotenv
+version: 0.1.0
+description: A minimal command-line application.
+environment:
+  sdk: '>=1.0.0 <2.0.0'
+dependencies:
+  logging: any
+  pico_log:
+    path: ../pico_log
+dev_dependencies:
+  unittest: any

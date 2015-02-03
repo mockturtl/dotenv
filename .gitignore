@@ -1,0 +1,6 @@
+.buildlog
+.pub/
+build/
+packages
+pubspec.lock
+.env
