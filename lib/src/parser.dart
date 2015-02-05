@@ -24,9 +24,7 @@ class Parser {
           .trim(); // TODO: variable substitution
       out[k] = v;
     });
-    out.forEach((k, v) {
-      _log.finer('load: $k=$v');
-    });
+    out.forEach((k, v) => _log.finer('parse: $k=$v'));
     return out;
   }
 

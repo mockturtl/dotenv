@@ -3,6 +3,31 @@ dotenv
 
 Load environment variables at runtime from a `.env` file.
 
+usage
+-----
+
+Prefix the library import and call `load()`, exposing the `env` map 
+with a top-level getter.
+
+```dart
+import 'package:dotenv/dotenv.dart' as dotenv;
+
+Map<String, String> get _env => dotenv.env;
+
+void main() {
+  dotenv.load();
+  var x = _env['foo'];
+  // ...
+}
+```
+Verify required variables are present:
+
+```dart
+const _requiredEnvVars = const ['host', 'port'];
+
+bool get hasEnv => dotenv.isEveryDefined(_requiredEnvVars);
+```
+
 ### limitations
 
 Does **not** yet support escaping or substitution.  Pull requests gleefully considered.
