@@ -13,8 +13,6 @@ Map<String, String> get env => _env;
 final _log = new Logger('dotenv');
 final _pkgroot = Platform.script.resolve('..');
 
-const _psr = const Parser();
-
 /// Overwrite [_env] with a clean [Platform.environment].  Useful for testing.
 Map clean() => _env = new Map.from(Platform.environment);
 
@@ -22,11 +20,11 @@ Map clean() => _env = new Map.from(Platform.environment);
 bool isEveryDefined(Iterable<String> vars) => vars.every(_defined);
 
 /// Read environment variables from [filename] and add them to [env].
-void load([String filename = '.env']) {
+void load([String filename = '.env', Parser psr = const Parser()]) {
   var f = new File.fromUri(_pkgroot.resolve(filename));
   _verify(f);
   var lines = f.readAsLinesSync();
-  _env.addAll(_psr.parse(lines));
+  _env.addAll(psr.parse(lines));
 }
 
 bool _defined(String k) => _env[k] != null && _env[k].isNotEmpty;
