@@ -11,3 +11,4 @@ dependencies:
     path: ../pico_log
 dev_dependencies:
   unittest: any
+  collection: any
