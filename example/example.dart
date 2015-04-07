@@ -1,14 +1,24 @@
 import 'package:dotenv/dotenv.dart' as dotenv;
 import 'package:logging/logging.dart';
-import 'package:pico_log/pico_log.dart';
 
 get env => dotenv.env;
 
 final log = new Logger('example');
 
 void main() {
-  LogInit.setup(level: Level.FINE);
+  _config();
+
   dotenv.load();
   log.info('main: value of foo is ${env['foo']}');
   log.info('main: value of baz is ${env['baz']}');
 }
+
+void _config() {
+  Logger.root.level = Level.FINE;
+  Logger.root.onRecord.listen((LogRecord rec) {
+    print('${rec.level.name} ${_toMsg(rec)}');
+  });
+}
+
+String _toMsg(LogRecord rec) =>
+    '${rec.time}: [${rec.loggerName}] ${rec.message}';

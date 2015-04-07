@@ -1,14 +1,12 @@
 name: dotenv
 version: 0.1.0
 description: Load environment variables from a `.env` file.
-author: mockturtl
-#homepage: https://mockturtl.github.io/pico_log
+author: mockturtl <mockturtl@gmail.com>
+homepage: https://github.com/mockturtl/dotenv
 environment:
   sdk: '>=1.8.0 <2.0.0'
 dependencies:
   logging: '^0.9.0'
-  pico_log:
-    git: git@bitbucket.org:mockturtl/pico_log.git
 dev_dependencies:
   unittest: any
   collection: any

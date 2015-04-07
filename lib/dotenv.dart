@@ -17,7 +17,8 @@ final _pkgroot = Platform.script.resolve('..');
 Map clean() => _env = new Map.from(Platform.environment);
 
 /// True if all supplied variables are present in the environment; false otherwise.
-bool isEveryDefined(Iterable<String> vars) => vars.every(_defined);
+bool isEveryDefined(Iterable<String> vars) =>
+    vars.every((k) => _env[k] != null && _env[k].isNotEmpty);
 
 /// Read environment variables from [filename] and add them to [env].
 void load([String filename = '.env', Parser psr = const Parser()]) {
@@ -26,8 +27,6 @@ void load([String filename = '.env', Parser psr = const Parser()]) {
   var lines = f.readAsLinesSync();
   _env.addAll(psr.parse(lines));
 }
-
-bool _defined(String k) => _env[k] != null && _env[k].isNotEmpty;
 
 void _verify(File f) {
   if (!f.existsSync()) {

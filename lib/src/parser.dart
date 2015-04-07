@@ -1,11 +1,14 @@
 part of dotenv;
 
+/// [Parser] creates key-value pairs from strings formatted as environment
+/// variable definitions.
 class Parser {
   static final _log = new Logger('Parser');
 
   const Parser();
 
-  Map<String, String> parse(List<String> lines) {
+  /// Creates a [Map] suitable for merging into [Platform.environment].
+  Map<String, String> parse(Iterable<String> lines) {
     if (!_validate(lines)) {
       _log.severe('parse: validation failed; aborting');
       exitCode = 1;
