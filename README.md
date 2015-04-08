@@ -3,6 +3,14 @@ dotenv
 
 Load environment variables at runtime from a `.env` file.
 
+[![Pub Version][pub-badge]][pub]
+[![Build Status][ci-badge]][ci]
+
+[ci-badge]: https://travis-ci.org/mockturtl/dotenv.svg?branch=master
+[ci]: https://travis-ci.org/mockturtl/dotenv
+[pub-badge]: https://img.shields.io/pub/v/dotenv.svg
+[pub]: https://pub.dartlang.org/packages/dotenv
+
 usage
 -----
 
