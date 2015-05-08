@@ -5,7 +5,7 @@ part of dotenv;
 class Parser {
   static final _log = new Logger('Parser');
 
-  static final _comment = new RegExp(r'#.*$'); // from # to EOL
+  static final _comment = new RegExp(r'#.*$');
   static final _keyword = 'export';
   static final _surroundQuotes = new RegExp(r'''^(['"])(.*)\1$''');
 
@@ -24,10 +24,11 @@ class Parser {
     return out;
   }
 
-  /// Parse a single line into a key-value pair.  Exposed for testing.
+  /// Parse a single line into a key-value pair.
+  @Deprecated('Exposed for testing') // FIXME
   Map<String, String> parseOne(String line) {
     var stripped = strip(line);
-    if (!_valid(stripped)) return {};
+    if (!_isValid(stripped)) return {};
 
     var sides = stripped.split('=');
     var lhs = sides[0];
@@ -35,23 +36,23 @@ class Parser {
     if (k.isEmpty) return {};
 
     var rhs = sides[1];
-    var v = dequote(rhs);
+    var v = unquote(rhs);
+    // TODO: variable substitution
     return {k: v};
   }
 
-  /// Strip quotes (single or double) surrounding a value.  Exposed for testing.
-  String dequote(String val) => val
-      .replaceFirstMapped(_surroundQuotes, (m) => m[2])
-      .trim(); // TODO: variable substitution
+  /// Strip quotes (single or double) surrounding a value.
+  @Deprecated('Exposed for testing') // FIXME
+  String unquote(String val) =>
+      val.replaceFirstMapped(_surroundQuotes, (m) => m[2]).trim();
 
-  /// Strip comments (trailing or whole-line).  Exposed for testing.
+  /// Strip comments (trailing or whole-line).
+  @Deprecated('Exposed for testing') // FIXME
   String strip(String line) => line.replaceAll(_comment, '').trim();
 
-  /// Omit 'export' keyword.  Exposed for testing.
+  /// Omit 'export' keyword.
+  @Deprecated('Exposed for testing') // FIXME
   String swallow(String line) => line.replaceAll(_keyword, '').trim();
 
-  bool _valid(String line) {
-    if (line.isEmpty || !line.contains('=')) return false;
-    return true;
-  }
+  bool _isValid(String s) => s.isNotEmpty && s.contains('=');
 }

@@ -9,10 +9,10 @@ void main() {
     test('it strips trailing comments', subj.strip);
     test('it ignores comment lines', subj.strip_line);
 
-    test('it handles unquoted values', subj.dequote_noop);
-    test('it handles double quoted values', subj.dequote_double);
-    test('it handles single quoted values', subj.dequote_single);
-    test('it handles escaped quotes within values', subj.dequote_escape);
+    test('it handles unquoted values', subj.unquote_noop);
+    test('it handles double quoted values', subj.unquote_double);
+    test('it handles single quoted values', subj.unquote_single);
+    test('it handles escaped quotes within values', subj.unquote_escape);
 
     test('it skips empty lines', subj.parse_empty);
     test('it ignores duplicate keys', subj.parse_dup);
@@ -39,23 +39,23 @@ class ParserTest {
     expect(out, equals(''));
   }
 
-  void dequote_single() {
-    var out = _psr.dequote("'val'");
+  void unquote_single() {
+    var out = _psr.unquote("'val'");
     expect(out, equals('val'));
   }
 
-  void dequote_noop() {
-    var out = _psr.dequote('str');
+  void unquote_noop() {
+    var out = _psr.unquote('str');
     expect(out, equals('str'));
   }
 
-  void dequote_double() {
-    var out = _psr.dequote('"val"');
+  void unquote_double() {
+    var out = _psr.unquote('"val"');
     expect(out, equals('val'));
   }
 
-  void dequote_escape() {
-    var out = _psr.dequote("val_with_\"escaped\"_\'quote\'s");
+  void unquote_escape() {
+    var out = _psr.unquote("val_with_\"escaped\"_\'quote\'s");
     expect(out, equals('''val_with_"escaped"_'quote's'''));
   }
 

@@ -11,8 +11,10 @@ Release notes are available on [github][notes].
 HEAD
 ----
 
-- [dep] migrate to [test][]
-- [dep] bump [logging][]
+- [deps] migrate to [test][]
+- [deps] bump [logging][]
+- [deprecated] `Parser` methods will become private. [#3][]
+    - `#unquote` `#strip`, `#swallow`, `#parseOne`
 
 [test]: https://pub.dartlang.org/packages/test
 [logging]: https://pub.dartlang.org/packages/logging
@@ -21,3 +23,5 @@ HEAD
 -----
 
 Initial release.
+
+[#3]: https://github.com/mockturtl/dotenv/issues/3
