@@ -5,37 +5,53 @@ part of dotenv;
 class Parser {
   static final _log = new Logger('Parser');
 
+  static final _comment = new RegExp(r'#.*$'); // from # to EOL
+  static final _keyword = 'export';
+  static final _surroundQuotes = new RegExp(r'''^(['"])(.*)\1$''');
+
   const Parser();
 
   /// Creates a [Map] suitable for merging into [Platform.environment].
+  /// Duplicate keys are silently discarded.
   Map<String, String> parse(Iterable<String> lines) {
-    if (!_validate(lines)) {
-      _log.severe('parse: validation failed; aborting');
-      exitCode = 1;
-      return {};
-    }
-
     var out = {};
     lines.forEach((line) {
-      var substrs = line.split('=');
-      var rawK = substrs[0];
-      var k = rawK.replaceAll('export', '').trim(); // omit 'export' keyword
-      var rawV = substrs[1];
-      var v = rawV.replaceAll(new RegExp(r'"'), '') // double-quoted values
-          .replaceAll(new RegExp(r"'"), '') // single-quoted values
-          .replaceAll(new RegExp(r'#.*$'), '') // comments
-          .trim(); // TODO: variable substitution
-      out[k] = v;
+      var kv = parseOne(line);
+      if (kv.isEmpty) return;
+      out.putIfAbsent(kv.keys.single, () => kv.values.single);
     });
     out.forEach((k, v) => _log.finer('parse: $k=$v'));
     return out;
   }
 
-  bool _validate(Iterable lines) {
-    if (lines.any((String l) => !l.contains('='))) {
-      _log.severe('_validate: missing "="');
-      return false;
-    }
+  /// Parse a single line into a key-value pair.  Exposed for testing.
+  Map<String, String> parseOne(String line) {
+    var stripped = strip(line);
+    if (!_valid(stripped)) return {};
+
+    var sides = stripped.split('=');
+    var lhs = sides[0];
+    var k = swallow(lhs);
+    if (k.isEmpty) return {};
+
+    var rhs = sides[1];
+    var v = dequote(rhs);
+    return {k: v};
+  }
+
+  /// Strip quotes (single or double) surrounding a value.  Exposed for testing.
+  String dequote(String val) => val
+      .replaceFirstMapped(_surroundQuotes, (m) => m[2])
+      .trim(); // TODO: variable substitution
+
+  /// Strip comments (trailing or whole-line).  Exposed for testing.
+  String strip(String line) => line.replaceAll(_comment, '').trim();
+
+  /// Omit 'export' keyword.  Exposed for testing.
+  String swallow(String line) => line.replaceAll(_keyword, '').trim();
+
+  bool _valid(String line) {
+    if (line.isEmpty || !line.contains('=')) return false;
     return true;
   }
 }
