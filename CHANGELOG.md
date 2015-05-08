@@ -11,11 +11,11 @@ Release notes are available on [github][notes].
 HEAD
 ----
 
-### dependencies
-
-- migrated to [test][]
+- [dep] migrate to [test][]
+- [dep] bump [logging][]
 
 [test]: https://pub.dartlang.org/packages/test
+[logging]: https://pub.dartlang.org/packages/logging
 
 0.1.0
 -----
