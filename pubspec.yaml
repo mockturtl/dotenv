@@ -6,7 +6,7 @@ homepage: https://github.com/mockturtl/dotenv
 environment:
   sdk: '>=1.8.0 <2.0.0'
 dependencies:
-  logging: '^0.9.0'
+  logging: '^0.11.0'
 dev_dependencies:
   test: any
   collection: any
