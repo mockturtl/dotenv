@@ -16,12 +16,31 @@ void main() {
 
     test('it skips empty lines', subj.parse_empty);
     test('it ignores duplicate keys', subj.parse_dup);
+
+    test('it detects unquoted values', subj.surroundingQuote_none);
+    test('it detects double-quoted values', subj.surroundingQuote_double);
+    test('it detects single-quoted values', subj.surroundingQuote_single);
   });
 }
 
 const _psr = const Parser();
 
 class ParserTest {
+  void surroundingQuote_none() {
+    var out = _psr.surroundingQuote('no quotes here!');
+    expect(out, isEmpty);
+  }
+
+  void surroundingQuote_single() {
+    var out = _psr.surroundingQuote("'single quoted'");
+    expect(out, equals("'"));
+  }
+
+  void surroundingQuote_double() {
+    var out = _psr.surroundingQuote('"double quoted"');
+    expect(out, equals('"'));
+  }
+
   void swallow() {
     var out = _psr.swallow(' export foo = bar  ');
     expect(out, equals('foo = bar'));
@@ -36,7 +55,7 @@ class ParserTest {
   void strip_line() {
     var out =
         _psr.strip('  # It was the best of times, it was a waste of time.');
-    expect(out, equals(''));
+    expect(out, isEmpty);
   }
 
   void unquote_single() {

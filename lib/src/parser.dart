@@ -36,9 +36,23 @@ class Parser {
     if (k.isEmpty) return {};
 
     var rhs = sides[1];
+    var quotChar = surroundingQuote(rhs);
     var v = unquote(rhs);
+
+    if (quotChar == "'") // skip substitution in single-quoted values
+        return {k: v};
+
     // TODO: variable substitution
+
     return {k: v};
+  }
+
+  /// If [val] is wrapped in single or double quotes, return the quote character.
+  /// Otherwise, return the empty string.
+  @Deprecated('Exposed for testing') // FIXME
+  String surroundingQuote(String val) {
+    if (!_surroundQuotes.hasMatch(val)) return '';
+    return _surroundQuotes.firstMatch(val).group(1);
   }
 
   /// Strip quotes (single or double) surrounding a value.

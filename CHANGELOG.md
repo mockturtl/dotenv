@@ -11,10 +11,10 @@ Release notes are available on [github][notes].
 HEAD
 ----
 
+- [deprecated] `Parser` methods will become private. [#3][]
+    - `#unquote` `#strip`, `#swallow`, `#parseOne`, `#surroundingQuote`
 - [deps] migrate to [test][]
 - [deps] bump [logging][]
-- [deprecated] `Parser` methods will become private. [#3][]
-    - `#unquote` `#strip`, `#swallow`, `#parseOne`
 
 [test]: https://pub.dartlang.org/packages/test
 [logging]: https://pub.dartlang.org/packages/logging
