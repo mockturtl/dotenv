@@ -11,6 +11,11 @@ Release notes are available on [github][notes].
 HEAD
 ----
 
+0.1.1+1
+-------
+
+- [fix] whitespace causes quotes not to be stripped
+
 0.1.1
 -----
 
