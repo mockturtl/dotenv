@@ -4,7 +4,11 @@ dotenv
 Load environment variables at runtime from a `.env` file.
 
 [![Pub Version][pub-badge]][pub]
-[![Build Status][ci-badge]][ci]
+[![Build Status][ci-badge]][ci]  
+
+NB: Travis uses [`test_runner`][], which has not yet moved off `unittest`.
+
+[`test_runner`]: https://github.com/google/test_runner.dart/blob/master/pubspec.yaml
 
 [ci-badge]: https://travis-ci.org/mockturtl/dotenv.svg?branch=master
 [ci]: https://travis-ci.org/mockturtl/dotenv
@@ -38,7 +42,7 @@ bool get hasEnv => dotenv.isEveryDefined(_requiredEnvVars);
 
 ### limitations
 
-Does **not** yet support escaping.  Pull requests gleefully considered.
+Variable substitution and character escaping is a work in progress.  Some cases don't work yet.  Pull requests gleefully considered.
 
 ###### prior art
 
