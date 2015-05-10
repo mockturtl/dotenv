@@ -4,9 +4,9 @@ dotenv
 Load environment variables at runtime from a `.env` file.
 
 [![Pub Version][pub-badge]][pub]
-[![Build Status][ci-badge]][ci]  
+[![Build Status][ci-badge]][ci]
 
-NB: Travis uses [`test_runner`][], which has not yet moved off `unittest`.
+_NB: Travis uses [`test_runner`][], which has not yet moved off `unittest`._
 
 [`test_runner`]: https://github.com/google/test_runner.dart/blob/master/pubspec.yaml
 
@@ -18,7 +18,7 @@ NB: Travis uses [`test_runner`][], which has not yet moved off `unittest`.
 usage
 -----
 
-Prefix the library import and call `load()`, exposing the `env` map 
+Prefix the library import and call `load()`, exposing the `env` map
 with a top-level getter.
 
 ```dart

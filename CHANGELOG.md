@@ -1,11 +1,12 @@
 changelog
 =========
 
-This project follows [pub-flavored semantic versioning][pub-semver].
+This project follows [pub-flavored semantic versioning][pub-semver]. ([more][pub-semver-readme])
 
 Release notes are available on [github][notes].
 
 [pub-semver]: https://www.dartlang.org/tools/pub/versioning.html#semantic-versions
+[pub-semver-readme]: https://pub.dartlang.org/packages/pub_semver
 [notes]: https://github.com/mockturtl/dotenv/releases
 
 HEAD
@@ -23,7 +24,7 @@ HEAD
 -----
 
 - [deprecated] `Parser` internals will become private. [#3][]
-    - `#unquote` `#strip`, `#swallow`, `#parseOne`, `#surroundingQuote`, `#interpolate`
+    - `#unquote`, `#strip`, `#swallow`, `#parseOne`, `#surroundingQuote`, `#interpolate`
 - [new] support variable substitution
 - [deps] migrate to [test][]
 - [deps] bump [logging][]

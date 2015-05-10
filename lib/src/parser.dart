@@ -67,7 +67,7 @@ class Parser {
     return _surroundQuotes.firstMatch(val).group(1);
   }
 
-  /// Strip quotes (single or double) surrounding a value.
+  /// Remove quotes (single or double) surrounding a value.
   @Deprecated('Exposed for testing') // FIXME
   String unquote(String val) =>
       val.replaceFirstMapped(_surroundQuotes, (m) => m[2]).trim();

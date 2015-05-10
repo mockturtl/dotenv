@@ -1,7 +1,7 @@
 tool
 ====
 
-Consider calling these in a git pre-commit hook.
+_Consider calling these in a git pre-commit hook._
 
 ### [fmt.sh][]
 
