@@ -26,12 +26,44 @@ void main() {
     test('it performs variable substitution', subj.interpolate);
     test('it skips undefined variables', subj.interpolate_missing);
     test('it handles explicitly null values in env', subj.interpolate_missing2);
+
+    test('it knows quoted # is not a comment', subj.parseOne_pound);
+    test('it handles quotes in a comment',
+        subj.parseOne_commentQuote_terminalChar);
+    test('it does NOT handle comments ending with a quote',
+        subj.parseOne_commentQuote_terminalChar2);
   });
 }
 
 const _psr = const Parser();
 
 class ParserTest {
+  void parseOne_commentQuote_terminalChar2() {
+    var fail =
+        _psr.parseOne('fruit = banana # I\'m a comment with a final "quote"');
+    expect(
+        fail['fruit'], equals('banana # I\'m a comment with a final "quote"'));
+  }
+
+  void parseOne_commentQuote_terminalChar() {
+    var sing = _psr.parseOne(
+        "fruit = 'banana' # comments can be 'sneaky!' "); // note terminal whitespace
+    var doub = _psr.parseOne('fruit = "banana" # comments can be "sneaky!" ');
+    var none = _psr.parseOne('fruit =  banana  # comments can be "sneaky!" ');
+
+    expect(sing['fruit'], equals('banana'));
+    expect(doub['fruit'], equals('banana'));
+    expect(none['fruit'], equals('banana'));
+  }
+
+  void parseOne_pound() {
+    var double = _psr.parseOne('foo = "ab#c"');
+    var single = _psr.parseOne("foo = 'ab#c'");
+
+    expect(double['foo'], equals('ab#c'));
+    expect(single['foo'], equals('ab#c'));
+  }
+
   void interpolate() {
     var out = _psr.interpolate(r'a$foo$baz', {'foo': 'bar', 'baz': 'qux'});
     expect(out, equals('abarqux'));

@@ -5,8 +5,11 @@ part of dotenv;
 class Parser {
   static final _log = new Logger('Parser');
 
-  static final _comment = new RegExp(r'#.*$');
-  static final _keyword = 'export';
+  static const _singleQuot = "'";
+  static const _doubleQuot = '"';
+  static const _keyword = 'export';
+
+  static final _comment = new RegExp(r'''#.*(?:[^'"])$''');
   static final _surroundQuotes = new RegExp(r'''^(['"])(.*)\1$''');
   static final _bashVar = new RegExp(r'(?:\\)?(\$)([a-zA-Z_][\w]*)+');
 
@@ -41,7 +44,7 @@ class Parser {
     var quotChar = surroundingQuote(rhs);
     var v = unquote(rhs);
 
-    if (quotChar == "'") // skip substitution in single-quoted values
+    if (quotChar == _singleQuot) // skip substitution in single-quoted values
         return {k: v};
 
     return {k: interpolate(v, env)};
