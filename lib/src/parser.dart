@@ -37,7 +37,7 @@ class Parser {
     var k = swallow(lhs);
     if (k.isEmpty) return {};
 
-    var rhs = sides[1];
+    var rhs = sides[1].trim();
     var quotChar = surroundingQuote(rhs);
     var v = unquote(rhs);
 

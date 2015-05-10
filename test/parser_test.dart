@@ -17,6 +17,7 @@ void main() {
     test('it skips empty lines', subj.parse_empty);
     test('it ignores duplicate keys', subj.parse_dup);
     test('it substitutes known variables into other values', subj.parse_subs);
+    test('it discards surrounding quotes', subj.parse_quot);
 
     test('it detects unquoted values', subj.surroundingQuote_none);
     test('it detects double-quoted values', subj.surroundingQuote_double);
@@ -117,5 +118,10 @@ class ParserTest {
   void parse_subs() {
     var out = _psr.parse(['foo=bar', r'baz=super$foo']);
     expect(out, equals({'foo': 'bar', 'baz': 'superbar'}));
+  }
+
+  void parse_quot() {
+    var out = _psr.parse([r"foo = 'bar'", r'export baz="qux"']);
+    expect(out, equals({'foo': 'bar', 'baz': 'qux'}));
   }
 }
