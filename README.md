@@ -38,7 +38,7 @@ bool get hasEnv => dotenv.isEveryDefined(_requiredEnvVars);
 
 ### limitations
 
-Does **not** yet support escaping or substitution.  Pull requests gleefully considered.
+Does **not** yet support escaping.  Pull requests gleefully considered.
 
 ###### prior art
 

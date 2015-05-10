@@ -12,7 +12,7 @@ HEAD
 ----
 
 - [deprecated] `Parser` methods will become private. [#3][]
-    - `#unquote` `#strip`, `#swallow`, `#parseOne`, `#surroundingQuote`
+    - `#unquote` `#strip`, `#swallow`, `#parseOne`, `#surroundingQuote`, `#interpolate`
 - [deps] migrate to [test][]
 - [deps] bump [logging][]
 

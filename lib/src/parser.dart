@@ -8,6 +8,7 @@ class Parser {
   static final _comment = new RegExp(r'#.*$');
   static final _keyword = 'export';
   static final _surroundQuotes = new RegExp(r'''^(['"])(.*)\1$''');
+  static final _bashVar = new RegExp(r'(?:\\)?(\$)([a-zA-Z_][\w]*)+');
 
   const Parser();
 
@@ -16,7 +17,7 @@ class Parser {
   Map<String, String> parse(Iterable<String> lines) {
     var out = {};
     lines.forEach((line) {
-      var kv = parseOne(line);
+      var kv = parseOne(line, env: out);
       if (kv.isEmpty) return;
       out.putIfAbsent(kv.keys.single, () => kv.values.single);
     });
@@ -26,7 +27,8 @@ class Parser {
 
   /// Parse a single line into a key-value pair.
   @Deprecated('Exposed for testing') // FIXME
-  Map<String, String> parseOne(String line) {
+  Map<String, String> parseOne(String line,
+      {Map<String, String> env: const {}}) {
     var stripped = strip(line);
     if (!_isValid(stripped)) return {};
 
@@ -42,10 +44,17 @@ class Parser {
     if (quotChar == "'") // skip substitution in single-quoted values
         return {k: v};
 
-    // TODO: variable substitution
-
-    return {k: v};
+    return {k: interpolate(v, env)};
   }
+
+  /// Substitute $bash_vars in [val] with values from [env].
+  @Deprecated('Exposed for testing') // FIXME
+  String interpolate(String val, Map<String, String> env) => val
+      .replaceAllMapped(_bashVar, (m) {
+    var k = m.group(2);
+    if (!env.containsKey(k) || env[k] == null) return '';
+    return env[k];
+  });
 
   /// If [val] is wrapped in single or double quotes, return the quote character.
   /// Otherwise, return the empty string.
