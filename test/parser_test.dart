@@ -46,8 +46,8 @@ class ParserTest {
   }
 
   void parseOne_commentQuote_terminalChar() {
-    var sing = _psr.parseOne(
-        "fruit = 'banana' # comments can be 'sneaky!' "); // note terminal whitespace
+    // note terminal whitespace
+    var sing = _psr.parseOne("fruit = 'banana' # comments can be 'sneaky!' ");
     var doub = _psr.parseOne('fruit = "banana" # comments can be "sneaky!" ');
     var none = _psr.parseOne('fruit =  banana  # comments can be "sneaky!" ');
 
