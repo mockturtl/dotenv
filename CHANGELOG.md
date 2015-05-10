@@ -11,8 +11,11 @@ Release notes are available on [github][notes].
 HEAD
 ----
 
-0.1.1+1
--------
+#### 0.1.1+2
+
+- [fix] don't strip `#` inside quotes [#5][]
+
+#### 0.1.1+1
 
 - [fix] whitespace causes quotes not to be stripped
 
@@ -34,3 +37,4 @@ HEAD
 Initial release.
 
 [#3]: https://github.com/mockturtl/dotenv/issues/3
+[#5]: https://github.com/mockturtl/dotenv/issues/5
