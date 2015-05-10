@@ -11,8 +11,12 @@ Release notes are available on [github][notes].
 HEAD
 ----
 
-- [deprecated] `Parser` methods will become private. [#3][]
+0.1.1
+-----
+
+- [deprecated] `Parser` internals will become private. [#3][]
     - `#unquote` `#strip`, `#swallow`, `#parseOne`, `#surroundingQuote`, `#interpolate`
+- [new] support variable substitution
 - [deps] migrate to [test][]
 - [deps] bump [logging][]
 
