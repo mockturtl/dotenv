@@ -12,6 +12,8 @@ Release notes are available on [github][notes].
 HEAD
 ----
 
+- [deps] drop [logging][]
+
 #### 0.1.1+2
 
 - [fix] don't strip `#` inside quotes [#5][]
