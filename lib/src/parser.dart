@@ -3,8 +3,6 @@ part of dotenv;
 /// [Parser] creates key-value pairs from strings formatted as environment
 /// variable definitions.
 class Parser {
-  static final _log = new Logger('Parser');
-
   static const _singleQuot = "'";
   static const _doubleQuot = '"';
   static const _keyword = 'export';
@@ -24,7 +22,6 @@ class Parser {
       if (kv.isEmpty) return;
       out.putIfAbsent(kv.keys.single, () => kv.values.single);
     });
-    out.forEach((k, v) => _log.finer('parse: $k=$v'));
     return out;
   }
 
