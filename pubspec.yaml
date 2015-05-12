@@ -7,6 +7,5 @@ environment:
   sdk: '>=1.8.0 <2.0.0'
 dependencies:
 dev_dependencies:
-  logging: any
   test: any
   collection: any
