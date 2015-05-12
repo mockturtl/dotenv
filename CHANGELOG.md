@@ -12,6 +12,10 @@ Release notes are available on [github][notes].
 HEAD
 ----
 
+0.1.2
+-----
+
+- [new] support variable substitution from `Platform.environment` [#6][]
 - [deps] drop [logging][]
 
 #### 0.1.1+2
@@ -41,3 +45,4 @@ Initial release.
 
 [#3]: https://github.com/mockturtl/dotenv/issues/3
 [#5]: https://github.com/mockturtl/dotenv/issues/5
+[#6]: https://github.com/mockturtl/dotenv/issues/6
