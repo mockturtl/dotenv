@@ -18,6 +18,21 @@ _NB: Travis uses [`test_runner`][], which has not yet moved off `unittest`._
 [dartdocs-badge]: https://img.shields.io/badge/dartdocs-reference-blue.svg
 [dartdocs]: http://www.dartdocs.org/documentation/dotenv/latest
 
+###### install
+
+Get the latest:
+
+```sh
+$ pub global activate dotenv
+```
+
+### run
+
+```
+$ pub run dotenv      # load the environment and print it to stdout
+$ pub run dotenv:new  # create the `.env` file and add it to `.gitignore`
+```
+
 ### limitations
 
 Variable substitution and character escaping is a work in progress.  Some cases don't work yet.  Pull requests gleefully considered.

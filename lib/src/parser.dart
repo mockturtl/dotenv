@@ -4,7 +4,6 @@ part of dotenv;
 /// variable definitions.
 class Parser {
   static const _singleQuot = "'";
-  static const _doubleQuot = '"';
   static const _keyword = 'export';
 
   static final _comment = new RegExp(r'''#.*(?:[^'"])$''');

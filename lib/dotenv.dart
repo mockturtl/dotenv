@@ -41,7 +41,7 @@ bool isEveryDefined(Iterable<String> vars) =>
 
 /// Read environment variables from [filename] and add them to [env].
 void load([String filename = '.env', Parser psr = const Parser()]) {
-  var f = new File.fromUri(_pkgroot.resolve(filename));
+  var f = new File.fromUri(new Uri.file(filename));
   _verify(f);
   var lines = f.readAsLinesSync();
   _env.addAll(psr.parse(lines));
