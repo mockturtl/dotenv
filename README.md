@@ -18,31 +18,6 @@ _NB: Travis uses [`test_runner`][], which has not yet moved off `unittest`._
 [dartdocs-badge]: https://img.shields.io/badge/dartdocs-reference-blue.svg
 [dartdocs]: http://www.dartdocs.org/documentation/dotenv/latest
 
-usage
------
-
-Prefix the library import and call `load()`, exposing the `env` map
-with a top-level getter.
-
-```dart
-import 'package:dotenv/dotenv.dart' as dotenv;
-
-Map<String, String> get _env => dotenv.env;
-
-void main() {
-  dotenv.load();
-  var x = _env['foo'];
-  // ...
-}
-```
-Verify required variables are present:
-
-```dart
-const _requiredEnvVars = const ['host', 'port'];
-
-bool get hasEnv => dotenv.isEveryDefined(_requiredEnvVars);
-```
-
 ### limitations
 
 Variable substitution and character escaping is a work in progress.  Some cases don't work yet.  Pull requests gleefully considered.
