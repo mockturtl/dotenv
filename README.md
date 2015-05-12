@@ -5,6 +5,7 @@ Load environment variables at runtime from a `.env` file.
 
 [![Pub Version][pub-badge]][pub]
 [![Build Status][ci-badge]][ci]
+[![][dartdocs-badge]][dartdocs]
 
 _NB: Travis uses [`test_runner`][], which has not yet moved off `unittest`._
 
@@ -14,6 +15,8 @@ _NB: Travis uses [`test_runner`][], which has not yet moved off `unittest`._
 [ci]: https://travis-ci.org/mockturtl/dotenv
 [pub-badge]: https://img.shields.io/pub/v/dotenv.svg
 [pub]: https://pub.dartlang.org/packages/dotenv
+[dartdocs-badge]: https://img.shields.io/badge/dartdocs-reference-blue.svg
+[dartdocs]: http://www.dartdocs.org/documentation/dotenv/latest
 
 usage
 -----
