@@ -1,8 +1,15 @@
-import 'package:test/test.dart';
+import 'dart:io';
+import 'dart:math';
+
 import 'package:dotenv/dotenv.dart';
+import 'package:test/test.dart';
+
+const ceil = 100000;
+Random rand;
 
 void main() {
   group('[Parser]', () {
+    setUp(() => rand = new Random());
     var subj = new ParserTest();
     test('it swallows "export"', subj.swallow);
 
@@ -26,6 +33,8 @@ void main() {
     test('it performs variable substitution', subj.interpolate);
     test('it skips undefined variables', subj.interpolate_missing);
     test('it handles explicitly null values in env', subj.interpolate_missing2);
+    test('it falls back to the process environment for undefined variables',
+        subj.interpolate_fallback);
 
     test('it knows quoted # is not a comment', subj.parseOne_pound);
     test('it handles quotes in a comment',
@@ -70,13 +79,20 @@ class ParserTest {
   }
 
   void interpolate_missing() {
-    var out = _psr.interpolate(r'a$foo$baz', {});
+    var r = rand.nextInt(ceil);
+    var out = _psr.interpolate('a\$jinx_$r', {});
     expect(out, equals('a'));
   }
 
   void interpolate_missing2() {
-    var out = _psr.interpolate(r'a$foo$baz', {'foo': null});
+    var r = rand.nextInt(ceil);
+    var out = _psr.interpolate('a\$foo_$r\$baz_$r', {'foo_$r': null});
     expect(out, equals('a'));
+  }
+
+  void interpolate_fallback() {
+    var out = _psr.interpolate('a\$HOME', {});
+    expect(out, equals('a${Platform.environment['HOME']}'));
   }
 
   void surroundingQuote_none() {

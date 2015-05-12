@@ -52,7 +52,7 @@ class Parser {
   String interpolate(String val, Map<String, String> env) => val
       .replaceAllMapped(_bashVar, (m) {
     var k = m.group(2);
-    if (!env.containsKey(k) || env[k] == null) return '';
+    if (!_has(env, k)) return _tryPlatformEnv(k);
     return env[k];
   });
 
@@ -78,4 +78,13 @@ class Parser {
   String swallow(String line) => line.replaceAll(_keyword, '').trim();
 
   bool _isValid(String s) => s.isNotEmpty && s.contains('=');
+
+  /// [null] is a valid value in a Dart map, but the env var representation is empty string, not the string 'null'
+  bool _has(Map<String, String> map, String key) =>
+      map.containsKey(key) && map[key] != null;
+
+  String _tryPlatformEnv(String key) {
+    if (!_has(Platform.environment, key)) return '';
+    return Platform.environment[key];
+  }
 }

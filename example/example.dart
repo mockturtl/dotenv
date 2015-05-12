@@ -11,6 +11,7 @@ void main() {
   dotenv.load();
   log.info('main: value of foo is ${env['foo']}');
   log.info('main: value of baz is ${env['baz']}');
+  log.info('main: your home directory is: ${env['HOME']}');
 }
 
 void _config() {
