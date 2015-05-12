@@ -1,3 +1,24 @@
+/// Loads environment variables from a `.env` file.
+///
+/// ## usage
+///
+/// Prefix the library import and call [load].
+/// You may wish to expose the [env] map with a top-level getter.
+///
+///     import 'package:dotenv/dotenv.dart' as dotenv;
+///
+///     Map<String, String> get _env => dotenv.env;
+///
+///     void main() {
+///       dotenv.load();
+///       var x = _env['foo'];
+///       // ...
+///     }
+///
+/// Verify required variables are present:
+///
+///     const _requiredEnvVars = const ['host', 'port'];
+///     bool get hasEnv => dotenv.isEveryDefined(_requiredEnvVars);
 library dotenv;
 
 import 'dart:io';
@@ -5,16 +26,16 @@ import 'dart:io';
 part 'src/parser.dart';
 
 var _env = new Map.from(Platform.environment);
+final _pkgroot = Platform.script.resolve('..');
 
 /// A copy of [Platform.environment] including variables loaded at runtime from a file.
 Map<String, String> get env => _env;
 
-final _pkgroot = Platform.script.resolve('..');
-
-/// Overwrite [_env] with a clean [Platform.environment].  Useful for testing.
+/// Overwrite [env] with a clean [Platform.environment].  Useful for testing.
 Map clean() => _env = new Map.from(Platform.environment);
 
-/// True if all supplied variables are present in the environment; false otherwise.
+/// True if all supplied variables have nonempty value; false otherwise.
+/// Note [load] should be called first.
 bool isEveryDefined(Iterable<String> vars) =>
     vars.every((k) => _env[k] != null && _env[k].isNotEmpty);
 

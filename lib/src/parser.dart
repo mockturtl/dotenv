@@ -1,6 +1,6 @@
 part of dotenv;
 
-/// [Parser] creates key-value pairs from strings formatted as environment
+/// Creates key-value pairs from strings formatted as environment
 /// variable definitions.
 class Parser {
   static const _singleQuot = "'";
@@ -11,6 +11,7 @@ class Parser {
   static final _surroundQuotes = new RegExp(r'''^(['"])(.*)\1$''');
   static final _bashVar = new RegExp(r'(?:\\)?(\$)([a-zA-Z_][\w]*)+');
 
+  /// [Parser] methods are pure functions.
   const Parser();
 
   /// Creates a [Map] suitable for merging into [Platform.environment].
@@ -25,7 +26,7 @@ class Parser {
     return out;
   }
 
-  /// Parse a single line into a key-value pair.
+  /// Parses a single line into a key-value pair.
   @Deprecated('Exposed for testing') // FIXME
   Map<String, String> parseOne(String line,
       {Map<String, String> env: const {}}) {
@@ -47,7 +48,7 @@ class Parser {
     return {k: interpolate(v, env)};
   }
 
-  /// Substitute $bash_vars in [val] with values from [env].
+  /// Substitutes $bash_vars in [val] with values from [env].
   @Deprecated('Exposed for testing') // FIXME
   String interpolate(String val, Map<String, String> env) => val
       .replaceAllMapped(_bashVar, (m) {
@@ -56,24 +57,24 @@ class Parser {
     return env[k];
   });
 
-  /// If [val] is wrapped in single or double quotes, return the quote character.
-  /// Otherwise, return the empty string.
+  /// If [val] is wrapped in single or double quotes, returns the quote character.
+  /// Otherwise, returns the empty string.
   @Deprecated('Exposed for testing') // FIXME
   String surroundingQuote(String val) {
     if (!_surroundQuotes.hasMatch(val)) return '';
     return _surroundQuotes.firstMatch(val).group(1);
   }
 
-  /// Remove quotes (single or double) surrounding a value.
+  /// Removes quotes (single or double) surrounding a value.
   @Deprecated('Exposed for testing') // FIXME
   String unquote(String val) =>
       val.replaceFirstMapped(_surroundQuotes, (m) => m[2]).trim();
 
-  /// Strip comments (trailing or whole-line).
+  /// Strips comments (trailing or whole-line).
   @Deprecated('Exposed for testing') // FIXME
   String strip(String line) => line.replaceAll(_comment, '').trim();
 
-  /// Omit 'export' keyword.
+  /// Omits 'export' keyword.
   @Deprecated('Exposed for testing') // FIXME
   String swallow(String line) => line.replaceAll(_keyword, '').trim();
 
