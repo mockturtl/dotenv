@@ -12,6 +12,8 @@ Release notes are available on [github][notes].
 HEAD
 ----
 
+- [new] add command-line interface [#7][]
+
 0.1.2
 -----
 
@@ -46,3 +48,4 @@ Initial release.
 [#3]: https://github.com/mockturtl/dotenv/issues/3
 [#5]: https://github.com/mockturtl/dotenv/issues/5
 [#6]: https://github.com/mockturtl/dotenv/issues/6
+[#7]: https://github.com/mockturtl/dotenv/issues/7
