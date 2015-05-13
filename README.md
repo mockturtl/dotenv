@@ -31,8 +31,8 @@ $ pub global activate dotenv
 Run:
 
 ```sh
-$ pub run dotenv      # load a file and print the environment to stdout
-$ pub run dotenv:new  # create the `.env` file and add it to `.gitignore`
+$ pub global run dotenv:new  # create a `.env` file and add it to `.gitignore`
+$ pub global run dotenv      # load the file and print the environment to stdout
 ```
 
 ### limitations
