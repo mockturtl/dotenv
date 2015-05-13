@@ -4,7 +4,6 @@ part of dotenv;
 /// variable definitions.
 class Parser {
   static const _singleQuot = "'";
-  static const _doubleQuot = '"';
   static const _keyword = 'export';
 
   static final _comment = new RegExp(r'''#.*(?:[^'"])$''');
@@ -14,7 +13,7 @@ class Parser {
   /// [Parser] methods are pure functions.
   const Parser();
 
-  /// Creates a [Map] suitable for merging into [Platform.environment].
+  /// Creates a [Map](dart:core) suitable for merging into [Platform.environment](dart:io).
   /// Duplicate keys are silently discarded.
   Map<String, String> parse(Iterable<String> lines) {
     var out = {};

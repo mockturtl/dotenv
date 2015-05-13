@@ -5,11 +5,7 @@ Load environment variables at runtime from a `.env` file.
 
 [![Pub Version][pub-badge]][pub]
 [![Build Status][ci-badge]][ci]
-[![][dartdocs-badge]][dartdocs]
-
-_NB: Travis uses [`test_runner`][], which has not yet moved off `unittest`._
-
-[`test_runner`]: https://github.com/google/test_runner.dart/blob/master/pubspec.yaml
+[![Documentation][dartdocs-badge]][dartdocs]
 
 [ci-badge]: https://travis-ci.org/mockturtl/dotenv.svg?branch=master
 [ci]: https://travis-ci.org/mockturtl/dotenv
@@ -17,6 +13,27 @@ _NB: Travis uses [`test_runner`][], which has not yet moved off `unittest`._
 [pub]: https://pub.dartlang.org/packages/dotenv
 [dartdocs-badge]: https://img.shields.io/badge/dartdocs-reference-blue.svg
 [dartdocs]: http://www.dartdocs.org/documentation/dotenv/latest
+
+### usage
+
+See [documentation][dotenv-usage].
+
+[dotenv-usage]: http://www.dartdocs.org/documentation/dotenv/latest/index.html#dotenv/dotenv
+
+### cli
+
+Get the latest:
+
+```sh
+$ pub global activate dotenv
+```
+
+Run:
+
+```sh
+$ pub run dotenv      # load a file and print the environment to stdout
+$ pub run dotenv:new  # create the `.env` file and add it to `.gitignore`
+```
 
 ### limitations
 
