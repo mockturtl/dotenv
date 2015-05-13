@@ -28,13 +28,14 @@ part 'src/parser.dart';
 var _env = new Map.from(Platform.environment);
 final _pkgroot = Platform.script.resolve('..');
 
-/// A copy of [Platform.environment] including variables loaded at runtime from a file.
+/// A copy of [Platform.environment](dart:io) including variables loaded at runtime from a file.
 Map<String, String> get env => _env;
 
-/// Overwrite [env] with a clean [Platform.environment].  Useful for testing.
+/// Overwrite [env] with a new writable copy of [Platform.environment](dart:io).
 Map clean() => _env = new Map.from(Platform.environment);
 
 /// True if all supplied variables have nonempty value; false otherwise.
+/// Differs from [containsKey](dart:core) by excluding null values.
 /// Note [load] should be called first.
 bool isEveryDefined(Iterable<String> vars) =>
     vars.every((k) => _env[k] != null && _env[k].isNotEmpty);

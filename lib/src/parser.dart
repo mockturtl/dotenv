@@ -13,7 +13,7 @@ class Parser {
   /// [Parser] methods are pure functions.
   const Parser();
 
-  /// Creates a [Map] suitable for merging into [Platform.environment].
+  /// Creates a [Map](dart:core) suitable for merging into [Platform.environment](dart:io).
   /// Duplicate keys are silently discarded.
   Map<String, String> parse(Iterable<String> lines) {
     var out = {};
