@@ -5,12 +5,11 @@ _Consider calling these in a git pre-commit hook._
 
 Ensure `~/.pub_cache/bin` is in your `$PATH`.
 
-### [fmt.sh][]
+### [fmt.sh](fmt.sh)
 
 Runs the official [code formatter][].
 
 [code formatter]: https://github.com/dart-lang/dart_style
-[fmt.sh]: fmt.sh
 
 ###### setup
 
@@ -18,17 +17,14 @@ Runs the official [code formatter][].
 $ pub global activate dart_style
 ```
 
-### [test.sh][]
+### [test.sh](test.sh)
 
 Runs the unit test suite.
 
-[test.sh]: test.sh
-
-### [docs.sh][]
+### [docs.sh](docs.sh)
 
 Preview [dartdoc][] documentation.
 
-[docs.sh]: docs.sh
 [dartdoc]: https://github.com/dart-lang/dartdoc
 
 ###### setup
@@ -36,3 +32,7 @@ Preview [dartdoc][] documentation.
 ```sh
 $ pub global activate dartdoc
 ```
+
+### [travis.sh](travis.sh)
+
+Run the analyzer and unit tests on Travis CI.
