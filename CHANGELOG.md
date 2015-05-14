@@ -12,7 +12,13 @@ Release notes are available on [github][notes].
 HEAD
 ----
 
-- [new] add command-line interface [#7][]
+0.1.3
+-----
+
+- [new] add command-line interface [#7][], [#8][]
+- [deps] add [args][]@v0.13
+
+[args]: https://pub.dartlang.org/packages/args
 
 0.1.2
 -----
@@ -49,3 +55,4 @@ Initial release.
 [#5]: https://github.com/mockturtl/dotenv/issues/5
 [#6]: https://github.com/mockturtl/dotenv/issues/6
 [#7]: https://github.com/mockturtl/dotenv/issues/7
+[#8]: https://github.com/mockturtl/dotenv/issues/8
