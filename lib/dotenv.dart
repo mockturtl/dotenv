@@ -26,7 +26,6 @@ import 'dart:io';
 part 'src/parser.dart';
 
 var _env = new Map.from(Platform.environment);
-final _pkgroot = Platform.script.resolve('..');
 
 /// A copy of [Platform.environment](dart:io) including variables loaded at runtime from a file.
 Map<String, String> get env => _env;

@@ -5,4 +5,4 @@ docs="docs"
 
 rm -rf "$docs" && \
 dartdoc && \
-open $docs/index.html
+open "$docs"/index.html
