@@ -12,6 +12,10 @@ Release notes are available on [github][notes].
 HEAD
 ----
 
+#### 0.1.3+1
+
+- [fix] allow braces with `${var}` substitution [#10][]
+
 0.1.3
 -----
 
@@ -56,3 +60,4 @@ Initial release.
 [#6]: https://github.com/mockturtl/dotenv/issues/6
 [#7]: https://github.com/mockturtl/dotenv/issues/7
 [#8]: https://github.com/mockturtl/dotenv/issues/8
+[#10]: https://github.com/mockturtl/dotenv/issues/10
