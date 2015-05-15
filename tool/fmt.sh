@@ -1,6 +1,5 @@
 #!/bin/sh
 
-# Add to `.git/hooks/pre-commit`:
-#   exec ./tool/fmt.sh
+# Autoformat code in-place, per style guidelines.
 
 dartfmt -w bin lib test example
