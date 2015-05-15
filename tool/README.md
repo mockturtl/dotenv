@@ -36,3 +36,7 @@ $ pub global activate dartdoc
 ### [travis.sh](travis.sh)
 
 Run the analyzer and unit tests on Travis CI.
+
+### [release.sh](release.sh)
+
+`git tag` and `pub publish`.

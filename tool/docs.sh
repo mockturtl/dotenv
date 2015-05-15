@@ -3,6 +3,6 @@
 
 docs="docs"
 
-rm -r $docs && \
+rm -rf "$docs" && \
 dartdoc && \
 open $docs/index.html
