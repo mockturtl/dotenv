@@ -35,12 +35,16 @@ void main() {
     test('it handles explicitly null values in env', subj.interpolate_missing2);
     test('it falls back to the process environment for undefined variables',
         subj.interpolate_fallback);
+    test('it handles \${surrounding braces} on vars', subj.interpolate_curlies);
 
     test('it knows quoted # is not a comment', subj.parseOne_pound);
     test('it handles quotes in a comment',
         subj.parseOne_commentQuote_terminalChar);
     test('it does NOT handle comments ending with a quote',
         subj.parseOne_commentQuote_terminalChar2);
+    test('it skips var substitution in single quotes', subj.parseOne_quot);
+    test('it performs var subs in double quotes', subj.parseOne_doubleQuot);
+    test('it performs var subs without quotes', subj.parseOne_unQuot);
   });
 }
 
@@ -79,13 +83,13 @@ class ParserTest {
   }
 
   void interpolate_missing() {
-    var r = rand.nextInt(ceil);
+    var r = rand.nextInt(ceil); // avoid runtime collision with real env vars
     var out = _psr.interpolate('a\$jinx_$r', {});
     expect(out, equals('a'));
   }
 
   void interpolate_missing2() {
-    var r = rand.nextInt(ceil);
+    var r = rand.nextInt(ceil); // avoid runtime collision with real env vars
     var out = _psr.interpolate('a\$foo_$r\$baz_$r', {'foo_$r': null});
     expect(out, equals('a'));
   }
@@ -93,6 +97,30 @@ class ParserTest {
   void interpolate_fallback() {
     var out = _psr.interpolate('a\$HOME', {});
     expect(out, equals('a${Platform.environment['HOME']}'));
+  }
+
+  void interpolate_curlies() {
+    var r = rand.nextInt(ceil); // avoid runtime collision with real env vars
+    var out = _psr.interpolate('optional_\${foo_$r}', {'foo_$r': 'curlies'});
+    expect(out, equals('optional_curlies'));
+  }
+
+  void parseOne_quot() {
+    var r = rand.nextInt(ceil); // avoid runtime collision with real env vars
+    var out = _psr.parseOne("some_var='my\$key_$r'", env: {'key_$r': 'val'});
+    expect(out['some_var'], equals('my\$key_$r'));
+  }
+
+  void parseOne_doubleQuot() {
+    var r = rand.nextInt(ceil); // avoid runtime collision with real env vars
+    var out = _psr.parseOne('some_var="my\$key_$r"', env: {'key_$r': 'val'});
+    expect(out['some_var'], equals('myval'));
+  }
+
+  void parseOne_unQuot() {
+    var r = rand.nextInt(ceil); // avoid runtime collision with real env vars
+    var out = _psr.parseOne("some_var=my\$key_$r", env: {'key_$r': 'val'});
+    expect(out['some_var'], equals('myval'));
   }
 
   void surroundingQuote_none() {

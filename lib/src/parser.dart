@@ -8,7 +8,8 @@ class Parser {
 
   static final _comment = new RegExp(r'''#.*(?:[^'"])$''');
   static final _surroundQuotes = new RegExp(r'''^(['"])(.*)\1$''');
-  static final _bashVar = new RegExp(r'(?:\\)?(\$)([a-zA-Z_][\w]*)+');
+  static final _bashVar =
+      new RegExp(r'(?:\\)?(\$)(?:{)?([a-zA-Z_][\w]*)+(?:})?');
 
   /// [Parser] methods are pure functions.
   const Parser();
