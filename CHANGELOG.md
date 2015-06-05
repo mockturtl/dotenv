@@ -12,6 +12,8 @@ Release notes are available on [github][notes].
 HEAD
 ----
 
+#### 0.1.3+2
+
 - [fix] don't throw if load fails [#11][]
 
 #### 0.1.3+1
