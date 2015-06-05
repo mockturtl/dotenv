@@ -21,7 +21,7 @@ void main(List<String> argv) {
   if (opts['help']) return _usage();
 
   dotenv.load(opts['file']);
-  stdout.writeln(dotenv.env);
+  _p(dotenv.env);
 }
 
 void _usage() {
@@ -29,4 +29,4 @@ void _usage() {
   _p('Usage: pub global run dotenv [-f <file>]\n${_argPsr.usage}');
 }
 
-void _p(String msg) => stdout.writeln(msg);
+void _p(msg) => stdout.writeln(msg);

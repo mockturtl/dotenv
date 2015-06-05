@@ -2,23 +2,21 @@
 ///
 /// ## usage
 ///
-/// Prefix the library import and call [load].
-/// You may wish to expose the [env] map with a top-level getter.
+/// Once you call [load], the top-level [env] map is available.
+/// You may wish to prefix the import.
 ///
-///     import 'package:dotenv/dotenv.dart' as dotenv;
-///
-///     Map<String, String> get _env => dotenv.env;
+///     import 'package:dotenv/dotenv.dart' show load, env;
 ///
 ///     void main() {
-///       dotenv.load();
-///       var x = _env['foo'];
+///       load();
+///       var x = env['foo'];
 ///       // ...
 ///     }
 ///
 /// Verify required variables are present:
 ///
 ///     const _requiredEnvVars = const ['host', 'port'];
-///     bool get hasEnv => dotenv.isEveryDefined(_requiredEnvVars);
+///     bool get hasEnv => isEveryDefined(_requiredEnvVars);
 library dotenv;
 
 import 'dart:io';
@@ -40,6 +38,7 @@ bool isEveryDefined(Iterable<String> vars) =>
     vars.every((k) => _env[k] != null && _env[k].isNotEmpty);
 
 /// Read environment variables from [filename] and add them to [env].
+/// Logs to [stderr] if [filename] does not exist.
 void load([String filename = '.env', Parser psr = const Parser()]) {
   var f = new File.fromUri(new Uri.file(filename));
   var lines = _verify(f);
