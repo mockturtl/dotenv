@@ -42,12 +42,12 @@ bool isEveryDefined(Iterable<String> vars) =>
 /// Read environment variables from [filename] and add them to [env].
 void load([String filename = '.env', Parser psr = const Parser()]) {
   var f = new File.fromUri(new Uri.file(filename));
-  _verify(f);
-  var lines = f.readAsLinesSync();
+  var lines = _verify(f);
   _env.addAll(psr.parse(lines));
 }
 
-void _verify(File f) {
-  if (f.existsSync()) return;
-  throw new FileSystemException('[dotenv] Load failed: file not found', '$f');
+List<String> _verify(File f) {
+  if (f.existsSync()) return f.readAsLinesSync();
+  stderr.writeln('[dotenv] Load failed: file not found: $f');
+  return [];
 }

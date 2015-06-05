@@ -12,6 +12,8 @@ Release notes are available on [github][notes].
 HEAD
 ----
 
+- [fix] don't throw if load fails [#11][]
+
 #### 0.1.3+1
 
 - [fix] allow braces with `${var}` substitution [#10][]
@@ -61,3 +63,4 @@ Initial release.
 [#7]: https://github.com/mockturtl/dotenv/issues/7
 [#8]: https://github.com/mockturtl/dotenv/issues/8
 [#10]: https://github.com/mockturtl/dotenv/issues/10
+[#11]: https://github.com/mockturtl/dotenv/issues/11
