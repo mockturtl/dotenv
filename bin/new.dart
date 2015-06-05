@@ -43,7 +43,7 @@ File _touch(String filename) {
   if (f.existsSync()) return f;
 
   f.createSync();
-  stdout.writeln('Created file: $filename');
+  _p('Created file: $filename');
   return f;
 }
 
