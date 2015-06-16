@@ -14,11 +14,33 @@ Load environment variables at runtime from a `.env` file.
 [dartdocs-badge]: https://img.shields.io/badge/dartdocs-reference-blue.svg
 [dartdocs]: http://www.dartdocs.org/documentation/dotenv/latest
 
+### about
+
+Deploying applications should be simple.  This implies constraints:
+
+> **The [twelve-factor app][12fa] stores [config][cfg] in _environment variables_**
+> (often shortened to _env vars_ or _env_). Env vars are easy to change
+> between deploys without changing any code... they are a language- and 
+> OS-agnostic standard.
+
+[12fa]: http://www.12factor.net
+[cfg]: http://12factor.net/config
+
+An _environment_ is the set of variables known to a process (say, `PATH`, `PORT`, ...).
+It is desirable to mimic the production environment during development (testing,
+staging, ...) by reading these values from a file.
+
+This library parses that file and merges its values with the built-in 
+[`Platform.environment`][docs-io] map.
+
+[docs-io]: https://api.dartlang.org/apidocs/channels/stable/dartdoc-viewer/dart:io.Platform#id_environment
+
 ### usage
 
-See [documentation][dotenv-usage].
+See [documentation][usage] and [examples][].
 
-[dotenv-usage]: http://www.dartdocs.org/documentation/dotenv/latest/index.html#dotenv/dotenv
+[usage]: http://www.dartdocs.org/documentation/dotenv/latest/index.html#dotenv/dotenv
+[examples]: https://github.com/mockturtl/dotenv/tree/master/example
 
 ### cli
 
@@ -31,20 +53,24 @@ $ pub global activate dotenv
 Run:
 
 ```sh
-$ pub global run dotenv:new  # create a `.env` file and add it to `.gitignore`
+$ pub global run dotenv:new  # create a .env file and add it to .gitignore
 $ pub global run dotenv      # load the file and print the environment to stdout
 ```
 
-### limitations
+#### discussion
 
-Variable substitution and character escaping is a work in progress.  Some cases don't work yet.  Pull requests gleefully considered.
+Use the [issue tracker][tracker] for bug reports and feature requests.
+
+Pull requests gleefully considered.
+
+[tracker]: https://github.com/mockturtl/dotenv/issues
 
 ###### prior art
 
 - [bkeepers/dotenv][] (ruby)
 - [motdotla/dotenv][] (node)
 - [theskumar/python-dotenv][] (python)
-- [joho/godotenv][] (golang)
+- [joho/godotenv][] (go)
 - [slapresta/rust-dotenv][] (rust)
 - [chandu/dotenv][] (c#)
 - [tpope/lein-dotenv][], [rentpath/clj-dotenv][] (clojure)
@@ -61,3 +87,5 @@ Variable substitution and character escaping is a work in progress.  Some cases 
 [rentpath/clj-dotenv]: https://github.com/rentpath/clj-dotenv
 [mefellows/sbt-dotenv]: https://github.com/mefellows/sbt-dotenv
 [greenspun/dotenv]: https://www.youtube.com/watch?v=pUjJU8Bbn3g
+
+###### license: [MIT](LICENSE)

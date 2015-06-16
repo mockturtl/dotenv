@@ -1,7 +1,7 @@
 example
 =======
 
-Note consuming code must call `load()` before accessing `env`.
+Note consuming code must call `load` before accessing the `env` map.
 
 usage
 -----
@@ -14,8 +14,8 @@ $ dart example.dart
 
 ###### setup
 
-Create a `.env` file in the package root.
+Define variables in a `.env` file.
 
 ```sh
-$ cp .env.example ../.env
+$ cp .env.example .env
 ```
