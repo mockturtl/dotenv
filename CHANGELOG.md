@@ -9,8 +9,9 @@ Release notes are available on [github][notes].
 [pub-semver-readme]: https://pub.dartlang.org/packages/pub_semver
 [notes]: https://github.com/mockturtl/dotenv/releases
 
-HEAD
-----
+#### 0.1.3+3
+
+- [docs] tweak README
 
 #### 0.1.3+2
 
