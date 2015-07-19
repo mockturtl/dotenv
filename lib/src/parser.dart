@@ -50,12 +50,12 @@ class Parser {
 
   /// Substitutes $bash_vars in [val] with values from [env].
   @Deprecated('Exposed for testing') // FIXME
-  String interpolate(String val, Map<String, String> env) => val
-      .replaceAllMapped(_bashVar, (m) {
-    var k = m.group(2);
-    if (!_has(env, k)) return _tryPlatformEnv(k);
-    return env[k];
-  });
+  String interpolate(String val, Map<String, String> env) =>
+      val.replaceAllMapped(_bashVar, (m) {
+        var k = m.group(2);
+        if (!_has(env, k)) return _tryPlatformEnv(k);
+        return env[k];
+      });
 
   /// If [val] is wrapped in single or double quotes, returns the quote character.
   /// Otherwise, returns the empty string.
