@@ -1,22 +1,22 @@
 import 'dart:io';
 
-import 'package:dotenv/dotenv.dart' show load, clean, isEveryDefined, env;
+import 'package:dotenv/dotenv.dart' show dotenv;
 
 void main() {
-  load();
+  dotenv.load();
 
-  p('read all vars? ${isEveryDefined(['foo', 'baz'])}');
+  p('read all vars? ${dotenv.isEveryDefined(['foo', 'baz'])}');
 
-  p('value of foo is ${env['foo']}');
-  p('value of baz is ${env['baz']}');
-  p('your home directory is: ${env['HOME']}');
+  p('value of foo is ${dotenv['foo']}');
+  p('value of baz is ${dotenv['baz']}');
+  p('your home directory is: ${dotenv['HOME']}');
 
-  clean();
+  dotenv.clean();
 
   p('cleaned!');
-  p('env has key foo? ${env.containsKey('foo')}');
-  p('env has key baz? ${env.containsKey('baz')}');
-  p('your home directory is still: ${env['HOME']}');
+  p('env has key foo? ${dotenv.has('foo')}');
+  p('env has key baz? ${dotenv.has('baz')}');
+  p('your home directory is still: ${dotenv['HOME']}');
 }
 
 p(String msg) => stdout.writeln(msg);

@@ -1,54 +1,69 @@
+library dotenv.tests;
+
 import 'dart:io';
+import 'dart:mirrors';
 
 import 'package:collection/equality.dart' show MapEquality;
-import 'package:dotenv/dotenv.dart' as dotenv;
+import 'package:dotenv/dotenv.dart';
 import 'package:test/test.dart';
-
-void main() {
-  group('[dotenv]', () {
-    var subj = new DotenvTest();
-
-    setUp(() => dotenv.env.addAll(vars));
-    tearDown(() => dotenv.clean());
-
-    test('it can clean previously defined variables', subj.clean);
-    test('it is equal to the read-only process environment when clean',
-        subj.clean2);
-    test('it confirms all required vars are defined', subj.every);
-    test('it fails when a required var is not defined', subj.every_fail);
-    test('it loads the file', subj.load, skip: 'pending');
-  });
-}
 
 const extra = const {'servlets': 'yes', 'rats': 'yes', 'horses': 'omgyes'};
 const vars = const {'x': '1', 'y': 'false', 'z': 'foo', 'empty': ''};
 
-class DotenvTest {
-  void clean() {
-    dotenv.env.addAll(extra);
-    dotenv.clean();
-    extra.keys.forEach((k) => expect(dotenv.env.containsKey(k), isFalse));
-    vars.keys.forEach((k) => expect(dotenv.env.containsKey(k), isFalse));
-  }
+void main() {
+  group('[dotenv]', () {
+    // Workaround due to current limitations of `test` package:
+    // See: https://github.com/dart-lang/test/issues/110 for details.
+    var libPath = currentMirrorSystem().findLibrary(#dotenv.tests).uri.path;
+    var varsFilename =
+        libPath.replaceFirst('dotenv_test.dart', 'resources/vars.env');
+    var extrasFilename =
+        libPath.replaceFirst('dotenv_test.dart', 'resources/extra.env');
 
-  void clean2() {
-    expect(_clean, isFalse);
-    dotenv.clean();
-    expect(_clean, isTrue);
-  }
+    setUp(() {
+      dotenv.load(varsFilename);
+    });
 
-  void every() {
-    dotenv.env.addAll(extra);
-    expect(dotenv.isEveryDefined(['x', 'y', 'z']), isTrue);
-    expect(dotenv.isEveryDefined(['servlets', 'rats', 'horses']), isTrue);
-  }
+    tearDown(() {
+      dotenv.clean();
+    });
 
-  void every_fail() {
-    expect(dotenv.isEveryDefined(['empty']), isFalse);
-    expect(dotenv.isEveryDefined(['no_such_key']), isFalse);
-  }
+    test('it can clean previously defined variables', () {
+      dotenv.clean();
+      extra.keys.forEach((k) => expect(dotenv.has(k), isFalse));
+    });
 
-  void load() {}
+    test('it is equal to the read-only process environment when clean', () {
+      dotenv.clean();
+      var eq = const MapEquality();
+      expect(eq.equals(dotenv.toMap(), Platform.environment), isTrue);
+    });
+    test('it confirms all required vars are defined', () {
+      dotenv.load(extrasFilename);
+
+      expect(dotenv.isEveryDefined(['x', 'y', 'z']), isTrue);
+      expect(dotenv.isEveryDefined(['servlets', 'rats', 'horses']), isTrue);
+    });
+    test('it fails when a required var is not defined', () {
+      dotenv.load(extrasFilename);
+      expect(dotenv.isEveryDefined(['empty']), isFalse);
+      expect(dotenv.isEveryDefined(['no_such_key']), isFalse);
+    });
+    test('it loads the file', () {
+      dotenv.load(extrasFilename);
+      expect(dotenv['servlets'], equals('yes'));
+      expect(dotenv['rats'], equals('yes'));
+      expect(dotenv['horses'], equals('omgyes'));
+    });
+
+    test('deprecated api works', () {
+      load(extrasFilename);
+      expect(env['servlets'], equals('yes'));
+      expect(env['rats'], equals('yes'));
+      expect(env['horses'], equals('omgyes'));
+
+      clean();
+      expect(env.containsKey('servlets'), isFalse);
+    });
+  });
 }
-
-bool get _clean => const MapEquality().equals(dotenv.env, Platform.environment);

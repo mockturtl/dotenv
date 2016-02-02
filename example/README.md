@@ -1,9 +1,9 @@
-example
+Example
 =======
 
-Note consuming code must call `load` before accessing the `env` map.
+Note consuming code must call `dotenv.load()` before accessing variables.
 
-usage
+Usage
 -----
 
 From this directory, run
@@ -12,7 +12,8 @@ From this directory, run
 $ dart example.dart
 ```
 
-###### setup
+Setup
+-----
 
 Define variables in a `.env` file.
 
