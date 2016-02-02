@@ -33,6 +33,10 @@ packages:
     description: http_parser
     source: hosted
     version: "0.0.2+7"
+  logging:
+    description: logging
+    source: hosted
+    version: "0.11.2"
   matcher:
     description: matcher
     source: hosted
@@ -97,3 +101,4 @@ packages:
     description: yaml
     source: hosted
     version: "2.1.3"
+sdk: ">=1.9.0 <2.0.0"

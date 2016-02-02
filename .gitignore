@@ -5,3 +5,5 @@ packages
 docs/
 .env*
 !example/.env.example
+.packages
+doc/api
