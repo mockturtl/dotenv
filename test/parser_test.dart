@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
-import 'package:dotenv/dotenv.dart';
+import 'package:dotenv/src/parser.dart';
 import 'package:test/test.dart';
 
 const ceil = 100000;

@@ -1,8 +1,8 @@
 #!/bin/sh
 # Generate dartdoc documentation and preview in a browser.
 
-docs="docs"
+outdir="doc/api"
 
-rm -rf "$docs" && \
+rm -rf "$outdir" && \
 dartdoc && \
-open "$docs"/index.html
+open "$outdir"/index.html

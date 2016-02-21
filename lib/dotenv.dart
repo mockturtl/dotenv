@@ -2,116 +2,88 @@
 ///
 /// ## Usage
 ///
-/// Use top-level [dotenv] constant to access environment variables.
+/// Use the top-level [env] map to access environment variables.
 ///
-/// In order to use variables defined in `.env` file one must first load it with
-/// `dotenv.load()`.
+/// To load variables from a `.env` file, load it with [dotenv.load].
 ///
 ///     import 'package:dotenv/dotenv.dart';
 ///
 ///     void main() {
-///       dotenv.load();
-///       var x = dotenv['MY_VAR'];
+///       dotenv.load();  // filename optional
+///       var x = env['MY_VAR'];
 ///     }
 ///
-/// Note that variables from [Platform.environment] will be loaded automatically.
+/// Note that variables from [Platform.environment] are included automatically.
 ///
-/// > Variables defined in `.env` file will override variable values from
-/// > [Platform.environment] if names are the same.
+/// Variables defined in the `.env` file will override values from [Platform.environment].
 ///
 /// Verify required variables are present:
 ///
 ///     const _requiredEnvVars = const ['host', 'port'];
 ///     bool get hasEnv => dotenv.isEveryDefined(_requiredEnvVars);
 ///
-/// The above code will check that each variable is set and it's value is not
-/// `null` and not empty.
+/// This will check that each variable is set and its value is not `null` or empty.
 library dotenv;
 
 import 'dart:io';
 import 'package:logging/logging.dart';
 
-part 'src/parser.dart';
+import 'package:dotenv/src/parser.dart';
 
-/// Logger for this library.
-///
-/// Can be accessed by client code via `Logger.root.children['dotenv']`.
-final Logger _logger = new Logger('dotenv');
+/// An *unmodifiable* copy of [Platform.environment] including variables loaded at runtime from a file.
+Map<String, String> get env => dotenv._toMap();
 
-/// A copy of [Platform.environment](dart:io) including variables loaded at
-/// runtime from a file.
+/// Wrapper for top-level functions.
 const DotEnv dotenv = const DotEnv._();
 
-/// Provides public interface for [dotenv] constant.
+/// Logger for this library.  Access via `Logger.root.children['dotenv']`.
+final Logger _log = new Logger('dotenv');
+
+/// Provides the public interface for the [dotenv] constant.
 class DotEnv {
-  static final Map _env = new Map.from(Platform.environment);
+  static final Map<String, String> _env = new Map.from(Platform.environment);
 
   const DotEnv._();
 
-  /// Returns value of environment variable specified by [name]. If
-  /// variable does not exist returns `null`, so this method can not be used
-  /// to test for variable presence.
-  ///
-  /// To test if variable exists one must use [has] or [isEveryDefined].
-  String operator [](String name) => _env[name];
+  @override
+  String toString() => _env.toString();
 
-  /// Returns `true` if environment variable exists. This will return `true`
-  /// even if variable value is set to `null` or is empty.
-  ///
-  /// This is equivalent to `Map.containsKey()`.
-  bool has(String name) => _env.containsKey(name);
+  /// Proxy for [Map.containsKey]. True if the key exists, even if its value is `null` or empty.
+  bool containsKey(String k) => _env.containsKey(k);
 
-  /// Returns unmodifiable map with all environment variables.
-  Map toMap() => new Map.unmodifiable(_env);
-
-  /// Reads variables from [filename] and adds them to environment.
+  /// Reads variables from [filename] and adds them to the environment.
   /// Logs a warning if [filename] does not exist.
-  void load([String filename = '.env', Parser parser = const Parser()]) {
+  void load([String filename = '.env', Parser psr = const Parser()]) {
     var f = new File.fromUri(new Uri.file(filename));
     var lines = _verify(f);
-    _env.addAll(parser.parse(lines));
-  }
-
-  List<String> _verify(File f) {
-    if (f.existsSync()) {
-      return f.readAsLinesSync();
-    } else {
-      _logger.warning('Load failed. File not found: ${f}');
-      return [];
-    }
+    _env.addAll(psr.parse(lines));
   }
 
   /// True if all supplied variables have nonempty value; false otherwise.
-  /// Differs from [Map.containsKey] by excluding null values.
+  /// Differs from [Map.containsKey] by excluding null and empty values.
   /// Note [dotenv.load] should be called first.
   bool isEveryDefined(Iterable<String> vars) =>
       vars.every((k) => _env[k] != null && _env[k].isNotEmpty);
 
-  /// Overwrite environment with a new copy of
-  /// [Platform.environment](dart:io).
+  /// Overwrites [_env] with a new copy of [Platform.environment].
   void clean() {
     _env.clear();
     _env.addAll(Platform.environment);
   }
 
-  @override
-  String toString() => _env.toString();
+  Map _toMap() => new Map.unmodifiable(_env);
+
+  List<String> _verify(File f) {
+    if (f.existsSync()) {
+      return f.readAsLinesSync();
+    } else {
+      _log.warning('Load failed. File not found: ${f}');
+      return [];
+    }
+  }
 }
 
-/// A copy of [Platform.environment](dart:io) including variables loaded
-/// at runtime from a file.
-///
-/// This returns __modifiable__ map so it is possible to make changes to
-/// environment directly via returned map object. One should not rely on this
-/// functionality since it's considered deprecated and will be removed in
-/// consequent releases.
-///
-/// **This function is deprecated, please use top-level [dotenv] constant.**
-@deprecated
-Map<String, String> get env => DotEnv._env;
-
-/// Overwrite environment with a new writable copy of
-/// [Platform.environment](dart:io).
+/// Overwrite [_env] with a new writable copy of [Platform.environment].
 ///
 /// **This function is deprecated, please use `dotenv.clean()` instead**
 @deprecated

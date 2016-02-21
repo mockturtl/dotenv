@@ -1,4 +1,6 @@
-part of dotenv;
+library dotenv.parser;
+
+import 'dart:io';
 
 /// Creates key-value pairs from strings formatted as environment
 /// variable definitions.
@@ -14,7 +16,7 @@ class Parser {
   /// [Parser] methods are pure functions.
   const Parser();
 
-  /// Creates a [Map](dart:core) suitable for merging into [Platform.environment](dart:io).
+  /// Creates a [Map] suitable for merging into [Platform.environment].
   /// Duplicate keys are silently discarded.
   Map<String, String> parse(Iterable<String> lines) {
     var out = {};

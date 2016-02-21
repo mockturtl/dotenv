@@ -14,8 +14,8 @@ void main() {
   dotenv.clean();
 
   p('cleaned!');
-  p('env has key foo? ${dotenv.has('foo')}');
-  p('env has key baz? ${dotenv.has('baz')}');
+  p('env has key foo? ${dotenv.containsKey('foo')}');
+  p('env has key baz? ${dotenv.containsKey('baz')}');
   p('your home directory is still: ${dotenv['HOME']}');
 }
 

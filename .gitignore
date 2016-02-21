@@ -1,9 +1,8 @@
 .buildlog
 .pub/
 build/
+doc/
 packages
-docs/
+.packages
 .env*
 !example/.env.example
-.packages
-doc/api

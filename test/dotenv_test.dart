@@ -30,30 +30,32 @@ void main() {
 
     test('it can clean previously defined variables', () {
       dotenv.clean();
-      extra.keys.forEach((k) => expect(dotenv.has(k), isFalse));
+      extra.keys.forEach((k) => expect(dotenv.containsKey(k), isFalse));
     });
 
     test('it is equal to the read-only process environment when clean', () {
       dotenv.clean();
       var eq = const MapEquality();
-      expect(eq.equals(dotenv.toMap(), Platform.environment), isTrue);
+      expect(eq.equals(env, Platform.environment), isTrue);
     });
+
     test('it confirms all required vars are defined', () {
       dotenv.load(extrasFilename);
-
       expect(dotenv.isEveryDefined(['x', 'y', 'z']), isTrue);
       expect(dotenv.isEveryDefined(['servlets', 'rats', 'horses']), isTrue);
     });
+
     test('it fails when a required var is not defined', () {
       dotenv.load(extrasFilename);
       expect(dotenv.isEveryDefined(['empty']), isFalse);
       expect(dotenv.isEveryDefined(['no_such_key']), isFalse);
     });
+
     test('it loads the file', () {
       dotenv.load(extrasFilename);
-      expect(dotenv['servlets'], equals('yes'));
-      expect(dotenv['rats'], equals('yes'));
-      expect(dotenv['horses'], equals('omgyes'));
+      expect(env['servlets'], equals('yes'));
+      expect(env['rats'], equals('yes'));
+      expect(env['horses'], equals('omgyes'));
     });
 
     test('deprecated api works', () {
