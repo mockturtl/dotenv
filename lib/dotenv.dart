@@ -30,7 +30,7 @@ import 'package:logging/logging.dart';
 
 import 'package:dotenv/src/parser.dart';
 
-/// An *unmodifiable* copy of [Platform.environment] including variables loaded at runtime from a file.
+/// An **unmodifiable** copy of [Platform.environment] including variables loaded at runtime from a file.
 Map<String, String> get env => dotenv._toMap();
 
 /// Wrapper for top-level functions.
