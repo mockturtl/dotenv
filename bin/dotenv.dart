@@ -18,9 +18,9 @@ final _argPsr = new ArgParser()
 void main(List<String> argv) {
   var opts = _argPsr.parse(argv);
 
-  if (opts['help']) return _usage();
+  if (opts['help'] == true) return _usage();
 
-  dotenv.load(opts['file']);
+  dotenv.load(opts['file'] as String);
   _p(dotenv.env);
 }
 

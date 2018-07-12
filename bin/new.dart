@@ -19,7 +19,7 @@ final _argPsr = new ArgParser()
 void main(List<String> args) {
   var opts = _argPsr.parse(args);
 
-  if (opts['help']) return _usage();
+  if (opts['help'] == true) return _usage();
 
   String envFile = opts['file'];
   _touch(envFile);
