@@ -2,7 +2,7 @@
 .pub/
 build/
 packages
-docs/
+doc/
 .env*
 !example/.env.example
 .dart_tool
