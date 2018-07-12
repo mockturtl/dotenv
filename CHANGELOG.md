@@ -9,6 +9,12 @@ Release notes are available on [github][notes].
 [pub-semver-readme]: https://pub.dartlang.org/packages/pub_semver
 [notes]: https://github.com/mockturtl/dotenv/releases
 
+1.0.0
+-----
+
+- Dart 2 compatible. [#16][]
+
+
 #### 0.1.3+3
 
 - [docs] tweak README
@@ -67,3 +73,4 @@ Initial release.
 [#8]: https://github.com/mockturtl/dotenv/issues/8
 [#10]: https://github.com/mockturtl/dotenv/issues/10
 [#11]: https://github.com/mockturtl/dotenv/issues/11
+[#16]: https://github.com/mockturtl/dotenv/issues/16
