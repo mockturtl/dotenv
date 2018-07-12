@@ -5,3 +5,6 @@ packages
 docs/
 .env*
 !example/.env.example
+.dart_tool
+pubspec.lock
+.packages

@@ -17,7 +17,7 @@ class Parser {
   /// Creates a [Map](dart:core) suitable for merging into [Platform.environment](dart:io).
   /// Duplicate keys are silently discarded.
   Map<String, String> parse(Iterable<String> lines) {
-    var out = {};
+    var out = <String, String>{};
     lines.forEach((line) {
       var kv = parseOne(line, env: out);
       if (kv.isEmpty) return;
@@ -43,7 +43,7 @@ class Parser {
     var v = unquote(rhs);
 
     if (quotChar == _singleQuot) // skip substitution in single-quoted values
-        return {k: v};
+      return {k: v};
 
     return {k: interpolate(v, env)};
   }

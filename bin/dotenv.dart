@@ -8,7 +8,8 @@ final _argPsr = new ArgParser()
   ..addOption('file',
       abbr: 'f',
       defaultsTo: '.env',
-      help: 'File to read.\nProvides environment variable definitions, one per line.');
+      help:
+          'File to read.\nProvides environment variable definitions, one per line.');
 
 /// Prints the [env] map.
 ///
@@ -18,9 +19,9 @@ final _argPsr = new ArgParser()
 void main(List<String> argv) {
   var opts = _argPsr.parse(argv);
 
-  if (opts['help']) return _usage();
+  if (opts['help'] == true) return _usage();
 
-  dotenv.load(opts['file']);
+  dotenv.load(opts['file'] as String);
   _p(dotenv.env);
 }
 

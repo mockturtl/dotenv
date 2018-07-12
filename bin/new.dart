@@ -1,6 +1,6 @@
-import 'dart:io';
-
+import 'dart:io' hide FileMode;
 import 'package:args/args.dart';
+import 'package:dart2_constant/io.dart';
 
 const String gitignore = '.gitignore';
 
@@ -19,9 +19,9 @@ final _argPsr = new ArgParser()
 void main(List<String> args) {
   var opts = _argPsr.parse(args);
 
-  if (opts['help']) return _usage();
+  if (opts['help'] == true) return _usage();
 
-  String envFile = opts['file'];
+  String envFile = opts['file'].toString();
   _touch(envFile);
 
   var g = _touch(gitignore);
@@ -48,7 +48,7 @@ File _touch(String filename) {
 }
 
 void _appendTo(File f, String line) {
-  f.writeAsStringSync('$line\n', mode: FileMode.APPEND);
+  f.writeAsStringSync('$line\n', mode: FileMode.append);
   _p("Added '$line' to ${f.path}.");
 }
 
