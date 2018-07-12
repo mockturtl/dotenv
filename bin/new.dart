@@ -21,7 +21,7 @@ void main(List<String> args) {
 
   if (opts['help'] == true) return _usage();
 
-  String envFile = opts['file'];
+  String envFile = opts['file'].toString();
   _touch(envFile);
 
   var g = _touch(gitignore);
