@@ -20,7 +20,7 @@
 library dotenv;
 
 import 'dart:io';
-
+import 'package:meta/meta.dart';
 part 'src/parser.dart';
 
 var _env = new Map<String, String>.from(Platform.environment);

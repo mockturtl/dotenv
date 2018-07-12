@@ -27,7 +27,7 @@ class Parser {
   }
 
   /// Parses a single line into a key-value pair.
-  @Deprecated('Exposed for testing') // FIXME
+  @visibleForTesting
   Map<String, String> parseOne(String line,
       {Map<String, String> env: const {}}) {
     var stripped = strip(line);
@@ -49,7 +49,7 @@ class Parser {
   }
 
   /// Substitutes $bash_vars in [val] with values from [env].
-  @Deprecated('Exposed for testing') // FIXME
+  @visibleForTesting
   String interpolate(String val, Map<String, String> env) =>
       val.replaceAllMapped(_bashVar, (m) {
         var k = m.group(2);
@@ -59,23 +59,23 @@ class Parser {
 
   /// If [val] is wrapped in single or double quotes, returns the quote character.
   /// Otherwise, returns the empty string.
-  @Deprecated('Exposed for testing') // FIXME
+  @visibleForTesting
   String surroundingQuote(String val) {
     if (!_surroundQuotes.hasMatch(val)) return '';
     return _surroundQuotes.firstMatch(val).group(1);
   }
 
   /// Removes quotes (single or double) surrounding a value.
-  @Deprecated('Exposed for testing') // FIXME
+  @visibleForTesting
   String unquote(String val) =>
       val.replaceFirstMapped(_surroundQuotes, (m) => m[2]).trim();
 
   /// Strips comments (trailing or whole-line).
-  @Deprecated('Exposed for testing') // FIXME
+  @visibleForTesting
   String strip(String line) => line.replaceAll(_comment, '').trim();
 
   /// Omits 'export' keyword.
-  @Deprecated('Exposed for testing') // FIXME
+  @visibleForTesting
   String swallow(String line) => line.replaceAll(_keyword, '').trim();
 
   bool _isValid(String s) => s.isNotEmpty && s.contains('=');
