@@ -7,12 +7,13 @@
 
 package=$(sed -nr -e 's|^name: (.+)$|\1|p' pubspec.yaml)
 version=$(sed -nr -e 's|^version: (.+)$|\1|p' pubspec.yaml)
+
 cat<<EOF
   Releasing $package ${version}...
 EOF
 
 check_commit() {
-  git rev-list --format=%s -n 1 HEAD | grep 'bump version'
+  git rev-list --format=%s -n 1 HEAD | grep '[ann]'
   bv=$?
   if [[ $bv -ne 0 ]]; then
     cat <<EOF
@@ -33,15 +34,9 @@ EOF
   fi
 }
 
-clean_docs() {
-  docs="docs"
-  rm -rf "$docs"
-}
-
 check_commit
 check_changelog
 
 git tag --cleanup=whitespace -u $GH_KEY_ID v$version && \
 git push --tags && \
-clean_docs && \
 pub publish
