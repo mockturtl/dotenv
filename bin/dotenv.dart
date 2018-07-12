@@ -8,7 +8,8 @@ final _argPsr = new ArgParser()
   ..addOption('file',
       abbr: 'f',
       defaultsTo: '.env',
-      help: 'File to read.\nProvides environment variable definitions, one per line.');
+      help:
+          'File to read.\nProvides environment variable definitions, one per line.');
 
 /// Prints the [env] map.
 ///
