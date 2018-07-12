@@ -8,7 +8,7 @@ environment:
 dependencies:
   args: ^1.0.0
   dart2_constant: ^1.0.0
+  meta: ^1.0.2
 dev_dependencies:
   test: any
   collection: any
-  meta: any
