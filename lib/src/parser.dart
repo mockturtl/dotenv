@@ -43,7 +43,7 @@ class Parser {
     var v = unquote(rhs);
 
     if (quotChar == _singleQuot) // skip substitution in single-quoted values
-        return {k: v};
+      return {k: v};
 
     return {k: interpolate(v, env)};
   }
