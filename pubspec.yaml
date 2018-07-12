@@ -4,7 +4,7 @@ description: Load environment variables from a `.env` file.
 author: mockturtl <mockturtl@gmail.com>
 homepage: https://github.com/mockturtl/dotenv
 environment:
-  sdk: '>=1.8.0 <2.0.0'
+  sdk: '>=1.8.0 <3.0.0'
 dependencies:
   args: ^0.13.0
 dev_dependencies:
