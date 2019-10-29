@@ -9,11 +9,15 @@ Release notes are available on [github][notes].
 [pub-semver-readme]: https://pub.dartlang.org/packages/pub_semver
 [notes]: https://github.com/mockturtl/dotenv/releases
 
+2.0.0
+-----
+
+- BREAKING: change parser to handle `=` in values, e.g. base64 [#21][]
+
 1.0.0
 -----
 
 - Dart 2 compatible. [#16][]
-
 
 #### 0.1.3+3
 
@@ -74,3 +78,4 @@ Initial release.
 [#10]: https://github.com/mockturtl/dotenv/issues/10
 [#11]: https://github.com/mockturtl/dotenv/issues/11
 [#16]: https://github.com/mockturtl/dotenv/issues/16
+[#21]: https://github.com/mockturtl/dotenv/pull/21
