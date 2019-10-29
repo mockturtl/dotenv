@@ -37,6 +37,7 @@ void main() {
         subj.interpolate_fallback);
     test('it handles \${surrounding braces} on vars', subj.interpolate_curlies);
 
+    test('it handles equal signs in values', subj.parseOne_equals);
     test('it knows quoted # is not a comment', subj.parseOne_pound);
     test('it handles quotes in a comment',
         subj.parseOne_commentQuote_terminalChar);
@@ -75,6 +76,16 @@ class ParserTest {
 
     expect(double['foo'], equals('ab#c'));
     expect(single['foo'], equals('ab#c'));
+  }
+
+  void parseOne_equals() {
+    var none = _psr.parseOne('foo=bar=qux');
+    var sing = _psr.parseOne("foo='bar=qux'");
+    var doub = _psr.parseOne('foo="bar=qux"');
+
+    expect(none['foo'], equals('bar=qux'));
+    expect(sing['foo'], equals('bar=qux'));
+    expect(doub['foo'], equals('bar=qux'));
   }
 
   void interpolate() {
