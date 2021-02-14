@@ -24,7 +24,7 @@ EOF
 }
 
 check_changelog() {
-  grep $version CHANGELOG.md
+  grep "$version" CHANGELOG.md
   cl=$?
   if [[ $cl -ne 0 ]]; then
     cat<<EOF
@@ -37,6 +37,6 @@ EOF
 check_commit
 check_changelog
 
-git tag --cleanup=whitespace -u $GH_KEY_ID v$version && \
+git tag --cleanup=whitespace -u "$GH_KEY_ID" v"$version" && \
 git push --tags && \
 pub publish

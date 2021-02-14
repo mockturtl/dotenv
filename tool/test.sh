@@ -1,4 +1,3 @@
-#!/bin/sh
-j=$(nproc)
+#!/bin/sh -e
 
-pub run test -j$j
+dart test --test-randomize-ordering-seed random "$@"
