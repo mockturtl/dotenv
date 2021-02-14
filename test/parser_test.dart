@@ -5,7 +5,7 @@ import 'package:dotenv/dotenv.dart';
 import 'package:test/test.dart';
 
 const ceil = 100000;
-Random rand;
+late Random rand;
 
 void main() {
   group('[Parser]', () {
@@ -101,7 +101,7 @@ class ParserTest {
 
   void interpolate_missing2() {
     var r = rand.nextInt(ceil); // avoid runtime collision with real env vars
-    var out = _psr.interpolate('a\$foo_$r\$baz_$r', {'foo_$r': null});
+    var out = _psr.interpolate('a\$foo_$r\$baz_$r', {'foo_$r': ''});
     expect(out, equals('a'));
   }
 

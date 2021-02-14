@@ -1,6 +1,6 @@
-import 'dart:io' hide FileMode;
+import 'dart:io';
+
 import 'package:args/args.dart';
-import 'package:dart2_constant/io.dart';
 
 const String gitignore = '.gitignore';
 
