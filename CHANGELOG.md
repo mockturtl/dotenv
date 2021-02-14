@@ -9,6 +9,11 @@ Release notes are available on [github][notes].
 [pub-semver-readme]: https://pub.dartlang.org/packages/pub_semver
 [notes]: https://github.com/mockturtl/dotenv/releases
 
+3.0.0-nullsafety.0
+------------------
+
+- BREAKING: bumps min Dart version to 2.12 for nullsafety [#27][]
+
 2.0.0
 -----
 
@@ -79,3 +84,4 @@ Initial release.
 [#11]: https://github.com/mockturtl/dotenv/issues/11
 [#16]: https://github.com/mockturtl/dotenv/issues/16
 [#21]: https://github.com/mockturtl/dotenv/pull/21
+[#27]: https://github.com/mockturtl/dotenv/pull/27

@@ -52,9 +52,8 @@ class Parser {
   @visibleForTesting
   String interpolate(String val, Map<String, String> env) =>
       val.replaceAllMapped(_bashVar, (m) {
-        var k = m.group(2);
-        if (!_has(env, k)) return _tryPlatformEnv(k);
-        return env[k];
+        var k = m.group(2)!;
+        return (!_has(env, k)) ? _tryPlatformEnv(k) ?? '' : env[k] ?? '';
       });
 
   /// If [val] is wrapped in single or double quotes, returns the quote character.
@@ -62,13 +61,13 @@ class Parser {
   @visibleForTesting
   String surroundingQuote(String val) {
     if (!_surroundQuotes.hasMatch(val)) return '';
-    return _surroundQuotes.firstMatch(val).group(1);
+    return _surroundQuotes.firstMatch(val)!.group(1)!;
   }
 
   /// Removes quotes (single or double) surrounding a value.
   @visibleForTesting
   String unquote(String val) =>
-      val.replaceFirstMapped(_surroundQuotes, (m) => m[2]).trim();
+      val.replaceFirstMapped(_surroundQuotes, (m) => m[2]!).trim();
 
   /// Strips comments (trailing or whole-line).
   @visibleForTesting
@@ -84,7 +83,7 @@ class Parser {
   bool _has(Map<String, String> map, String key) =>
       map.containsKey(key) && map[key] != null;
 
-  String _tryPlatformEnv(String key) {
+  String? _tryPlatformEnv(String key) {
     if (!_has(Platform.environment, key)) return '';
     return Platform.environment[key];
   }

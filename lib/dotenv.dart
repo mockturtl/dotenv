@@ -20,7 +20,9 @@
 library dotenv;
 
 import 'dart:io';
+
 import 'package:meta/meta.dart';
+
 part 'src/parser.dart';
 
 var _env = new Map<String, String>.from(Platform.environment);
@@ -35,7 +37,7 @@ Map clean() => _env = new Map.from(Platform.environment);
 /// Differs from [containsKey](dart:core) by excluding null values.
 /// Note [load] should be called first.
 bool isEveryDefined(Iterable<String> vars) =>
-    vars.every((k) => _env[k] != null && _env[k].isNotEmpty);
+    vars.every((k) => _env[k] != null && (_env[k]?.isNotEmpty ?? false));
 
 /// Read environment variables from [filename] and add them to [env].
 /// Logs to [stderr] if [filename] does not exist.

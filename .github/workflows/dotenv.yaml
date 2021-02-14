@@ -1,0 +1,27 @@
+name: dotenv
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: cedx/setup-dart@v2
+        with:
+          release-channel: dev
+
+      - name: Install dependencies
+        run: dart pub get
+
+      - name: Format
+        run: tool/format.sh
+      - name: Analyze
+        run: tool/analyze.sh
+      - name: Run unit tests
+        run: tool/test.sh
