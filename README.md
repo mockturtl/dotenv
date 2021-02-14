@@ -6,9 +6,12 @@ Load environment variables at runtime from a `.env` file.
 [![Pub Version][pub-badge]][pub]
 [![Build Status][ci-badge]][ci]
 [![Documentation][dartdocs-badge]][dartdocs]
+[![style: tidy](https://img.shields.io/badge/style-tidy-43caf5.svg)][lint]
 
-[ci-badge]: https://travis-ci.org/mockturtl/dotenv.svg?branch=master
-[ci]: https://travis-ci.org/mockturtl/dotenv
+
+[ci-badge]: https://github.com/mockturtl/dotenv/workflows/dotenv/badge.svg
+[ci]: https://github.com/mockturtl/dotenv/actions
+[lint]: https://pub.dev/packages/tidy
 [pub-badge]: https://img.shields.io/pub/v/dotenv.svg
 [pub]: https://pub.dartlang.org/packages/dotenv
 [dartdocs-badge]: https://img.shields.io/badge/dartdocs-reference-blue.svg
@@ -20,7 +23,7 @@ Deploying applications should be simple.  This implies constraints:
 
 > **The [twelve-factor app][12fa] stores [config][cfg] in _environment variables_**
 > (often shortened to _env vars_ or _env_). Env vars are easy to change
-> between deploys without changing any code... they are a language- and 
+> between deploys without changing any code... they are a language- and
 > OS-agnostic standard.
 
 [12fa]: http://www.12factor.net
@@ -30,7 +33,7 @@ An _environment_ is the set of variables known to a process (say, `PATH`, `PORT`
 It is desirable to mimic the production environment during development (testing,
 staging, ...) by reading these values from a file.
 
-This library parses that file and merges its values with the built-in 
+This library parses that file and merges its values with the built-in
 [`Platform.environment`][docs-io] map.
 
 [docs-io]: https://api.dartlang.org/apidocs/channels/stable/dartdoc-viewer/dart:io.Platform#id_environment
@@ -47,14 +50,14 @@ See [documentation][usage] and [examples][].
 Get the latest:
 
 ```sh
-$ pub global activate dotenv
+$ dart pub global activate dotenv
 ```
 
 Run:
 
 ```sh
-$ pub global run dotenv:new  # create a .env file and add it to .gitignore
-$ pub global run dotenv      # load the file and print the environment to stdout
+$ dart pub global run dotenv:new  # create a .env file and add it to .gitignore
+$ dart pub global run dotenv      # load the file and print the environment to stdout
 ```
 
 #### discussion
