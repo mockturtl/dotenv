@@ -3,7 +3,7 @@ version: 3.0.0-nullsafety.0
 description: Load environment variables from a `.env` file.
 homepage: https://github.com/mockturtl/dotenv
 environment:
-  sdk: '>=2.12.0-0 <3.0.0'
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   args: ^2.1.0
