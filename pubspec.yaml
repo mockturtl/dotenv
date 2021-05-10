@@ -1,5 +1,6 @@
 name: dotenv
-version: 3.0.0-nullsafety.0
+version: 3.0.0
+
 description: Load environment variables from a `.env` file.
 homepage: https://github.com/mockturtl/dotenv
 environment:
