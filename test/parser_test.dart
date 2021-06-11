@@ -1,16 +1,13 @@
 import 'dart:io';
 import 'dart:math';
 
-import 'package:dotenv/dotenv.dart';
+import 'package:dotenv/src/parser.dart';
 import 'package:test/test.dart';
 
-const ceil = 100000;
-late Random rand;
-
 void main() {
-  group('[Parser]', () {
-    setUp(() => rand = new Random());
-    var subj = new ParserTest();
+  group('Parser', () {
+    setUp(() => rand = Random());
+    var subj = ParserTest();
     test('it swallows "export"', subj.swallow);
 
     test('it strips trailing comments', subj.strip);
@@ -49,48 +46,27 @@ void main() {
   });
 }
 
+const ceil = 100000;
+
 const _psr = const Parser();
 
+late Random rand;
+
 class ParserTest {
-  void parseOne_commentQuote_terminalChar2() {
-    var fail =
-        _psr.parseOne('fruit = banana # I\'m a comment with a final "quote"');
-    expect(
-        fail['fruit'], equals('banana # I\'m a comment with a final "quote"'));
-  }
-
-  void parseOne_commentQuote_terminalChar() {
-    // note terminal whitespace
-    var sing = _psr.parseOne("fruit = 'banana' # comments can be 'sneaky!' ");
-    var doub = _psr.parseOne('fruit = "banana" # comments can be "sneaky!" ');
-    var none = _psr.parseOne('fruit =  banana  # comments can be "sneaky!" ');
-
-    expect(sing['fruit'], equals('banana'));
-    expect(doub['fruit'], equals('banana'));
-    expect(none['fruit'], equals('banana'));
-  }
-
-  void parseOne_pound() {
-    var double = _psr.parseOne('foo = "ab#c"');
-    var single = _psr.parseOne("foo = 'ab#c'");
-
-    expect(double['foo'], equals('ab#c'));
-    expect(single['foo'], equals('ab#c'));
-  }
-
-  void parseOne_equals() {
-    var none = _psr.parseOne('foo=bar=qux');
-    var sing = _psr.parseOne("foo='bar=qux'");
-    var doub = _psr.parseOne('foo="bar=qux"');
-
-    expect(none['foo'], equals('bar=qux'));
-    expect(sing['foo'], equals('bar=qux'));
-    expect(doub['foo'], equals('bar=qux'));
-  }
-
   void interpolate() {
     var out = _psr.interpolate(r'a$foo$baz', {'foo': 'bar', 'baz': 'qux'});
     expect(out, equals('abarqux'));
+  }
+
+  void interpolate_curlies() {
+    var r = rand.nextInt(ceil); // avoid runtime collision with real env vars
+    var out = _psr.interpolate('optional_\${foo_$r}', {'foo_$r': 'curlies'});
+    expect(out, equals('optional_curlies'));
+  }
+
+  void interpolate_fallback() {
+    var out = _psr.interpolate('a\$HOME', {});
+    expect(out, equals('a${Platform.environment['HOME']}'));
   }
 
   void interpolate_missing() {
@@ -105,21 +81,48 @@ class ParserTest {
     expect(out, equals('a'));
   }
 
-  void interpolate_fallback() {
-    var out = _psr.interpolate('a\$HOME', {});
-    expect(out, equals('a${Platform.environment['HOME']}'));
+  void parse_dup() {
+    var out = _psr.parse(['foo=bar', 'foo=baz']);
+    expect(out, equals({'foo': 'bar'}));
   }
 
-  void interpolate_curlies() {
-    var r = rand.nextInt(ceil); // avoid runtime collision with real env vars
-    var out = _psr.interpolate('optional_\${foo_$r}', {'foo_$r': 'curlies'});
-    expect(out, equals('optional_curlies'));
+  void parse_empty() {
+    var out = _psr.parse([
+      '# Define environment variables.',
+      '  # comments will be stripped',
+      'foo=bar  # trailing junk',
+      ' baz =    qux',
+      '# another comment'
+    ]);
+    expect(out, equals({'foo': 'bar', 'baz': 'qux'}));
   }
 
-  void parseOne_quot() {
-    var r = rand.nextInt(ceil); // avoid runtime collision with real env vars
-    var out = _psr.parseOne("some_var='my\$key_$r'", env: {'key_$r': 'val'});
-    expect(out['some_var'], equals('my\$key_$r'));
+  void parse_quot() {
+    var out = _psr.parse([r"foo = 'bar'", r'export baz="qux"']);
+    expect(out, equals({'foo': 'bar', 'baz': 'qux'}));
+  }
+
+  void parse_subs() {
+    var out = _psr.parse(['foo=bar', r'baz=super$foo']);
+    expect(out, equals({'foo': 'bar', 'baz': 'superbar'}));
+  }
+
+  void parseOne_commentQuote_terminalChar() {
+    // note terminal whitespace
+    var sing = _psr.parseOne("fruit = 'banana' # comments can be 'sneaky!' ");
+    var doub = _psr.parseOne('fruit = "banana" # comments can be "sneaky!" ');
+    var none = _psr.parseOne('fruit =  banana  # comments can be "sneaky!" ');
+
+    expect(sing['fruit'], equals('banana'));
+    expect(doub['fruit'], equals('banana'));
+    expect(none['fruit'], equals('banana'));
+  }
+
+  void parseOne_commentQuote_terminalChar2() {
+    var fail =
+        _psr.parseOne('fruit = banana # I\'m a comment with a final "quote"');
+    expect(
+        fail['fruit'], equals('banana # I\'m a comment with a final "quote"'));
   }
 
   void parseOne_doubleQuot() {
@@ -128,30 +131,34 @@ class ParserTest {
     expect(out['some_var'], equals('myval'));
   }
 
+  void parseOne_equals() {
+    var none = _psr.parseOne('foo=bar=qux');
+    var sing = _psr.parseOne("foo='bar=qux'");
+    var doub = _psr.parseOne('foo="bar=qux"');
+
+    expect(none['foo'], equals('bar=qux'));
+    expect(sing['foo'], equals('bar=qux'));
+    expect(doub['foo'], equals('bar=qux'));
+  }
+
+  void parseOne_pound() {
+    var double = _psr.parseOne('foo = "ab#c"');
+    var single = _psr.parseOne("foo = 'ab#c'");
+
+    expect(double['foo'], equals('ab#c'));
+    expect(single['foo'], equals('ab#c'));
+  }
+
+  void parseOne_quot() {
+    var r = rand.nextInt(ceil); // avoid runtime collision with real env vars
+    var out = _psr.parseOne("some_var='my\$key_$r'", env: {'key_$r': 'val'});
+    expect(out['some_var'], equals('my\$key_$r'));
+  }
+
   void parseOne_unQuot() {
     var r = rand.nextInt(ceil); // avoid runtime collision with real env vars
     var out = _psr.parseOne("some_var=my\$key_$r", env: {'key_$r': 'val'});
     expect(out['some_var'], equals('myval'));
-  }
-
-  void surroundingQuote_none() {
-    var out = _psr.surroundingQuote('no quotes here!');
-    expect(out, isEmpty);
-  }
-
-  void surroundingQuote_single() {
-    var out = _psr.surroundingQuote("'single quoted'");
-    expect(out, equals("'"));
-  }
-
-  void surroundingQuote_double() {
-    var out = _psr.surroundingQuote('"double quoted"');
-    expect(out, equals('"'));
-  }
-
-  void swallow() {
-    var out = _psr.swallow(' export foo = bar  ');
-    expect(out, equals('foo = bar'));
   }
 
   void strip() {
@@ -166,14 +173,24 @@ class ParserTest {
     expect(out, isEmpty);
   }
 
-  void unquote_single() {
-    var out = _psr.unquote("'val'");
-    expect(out, equals('val'));
+  void surroundingQuote_double() {
+    var out = _psr.surroundingQuote('"double quoted"');
+    expect(out, equals('"'));
   }
 
-  void unquote_noop() {
-    var out = _psr.unquote('str');
-    expect(out, equals('str'));
+  void surroundingQuote_none() {
+    var out = _psr.surroundingQuote('no quotes here!');
+    expect(out, isEmpty);
+  }
+
+  void surroundingQuote_single() {
+    var out = _psr.surroundingQuote("'single quoted'");
+    expect(out, equals("'"));
+  }
+
+  void swallow() {
+    var out = _psr.swallow(' export foo = bar  ');
+    expect(out, equals('foo = bar'));
   }
 
   void unquote_double() {
@@ -186,29 +203,13 @@ class ParserTest {
     expect(out, equals('''val_with_"escaped"_'quote's'''));
   }
 
-  void parse_empty() {
-    var out = _psr.parse([
-      '# Define environment variables.',
-      '  # comments will be stripped',
-      'foo=bar  # trailing junk',
-      ' baz =    qux',
-      '# another comment'
-    ]);
-    expect(out, equals({'foo': 'bar', 'baz': 'qux'}));
+  void unquote_noop() {
+    var out = _psr.unquote('str');
+    expect(out, equals('str'));
   }
 
-  void parse_dup() {
-    var out = _psr.parse(['foo=bar', 'foo=baz']);
-    expect(out, equals({'foo': 'bar'}));
-  }
-
-  void parse_subs() {
-    var out = _psr.parse(['foo=bar', r'baz=super$foo']);
-    expect(out, equals({'foo': 'bar', 'baz': 'superbar'}));
-  }
-
-  void parse_quot() {
-    var out = _psr.parse([r"foo = 'bar'", r'export baz="qux"']);
-    expect(out, equals({'foo': 'bar', 'baz': 'qux'}));
+  void unquote_single() {
+    var out = _psr.unquote("'val'");
+    expect(out, equals('val'));
   }
 }

@@ -2,53 +2,21 @@
 ///
 /// ## usage
 ///
-/// Once you call [load], the top-level [env] map is available.
-/// You may wish to prefix the import.
+/// Call [DotEnv.load] to parse the file(s).
+/// Read variables from the underlying [Map] using the `[]` operator.
 ///
-///     import 'package:dotenv/dotenv.dart' show load, env;
+///     import 'package:dotenv/dotenv.dart';
 ///
 ///     void main() {
-///       load();
-///       var x = env['foo'];
+///       var env = DotEnv(includePlatformEnvironment: true)
+///         ..load('path/to/my/.env');
+///       var foo = env['foo'];
+///       var homeDir = env['HOME'];
 ///       // ...
 ///     }
 ///
 /// Verify required variables are present:
 ///
-///     const _requiredEnvVars = const ['host', 'port'];
-///     bool get hasEnv => isEveryDefined(_requiredEnvVars);
-library dotenv;
-
-import 'dart:io';
-
-import 'package:meta/meta.dart';
-
-part 'src/parser.dart';
-
-var _env = new Map<String, String>.from(Platform.environment);
-
-/// A copy of [Platform.environment](dart:io) including variables loaded at runtime from a file.
-Map<String, String> get env => _env;
-
-/// Overwrite [env] with a new writable copy of [Platform.environment](dart:io).
-Map clean() => _env = new Map.from(Platform.environment);
-
-/// True if all supplied variables have nonempty value; false otherwise.
-/// Differs from [containsKey](dart:core) by excluding null values.
-/// Note [load] should be called first.
-bool isEveryDefined(Iterable<String> vars) =>
-    vars.every((k) => _env[k] != null && (_env[k]?.isNotEmpty ?? false));
-
-/// Read environment variables from [filename] and add them to [env].
-/// Logs to [stderr] if [filename] does not exist.
-void load([String filename = '.env', Parser psr = const Parser()]) {
-  var f = new File.fromUri(new Uri.file(filename));
-  var lines = _verify(f);
-  _env.addAll(psr.parse(lines));
-}
-
-List<String> _verify(File f) {
-  if (f.existsSync()) return f.readAsLinesSync();
-  stderr.writeln('[dotenv] Load failed: file not found: $f');
-  return [];
-}
+///     const _requiredEnvVars = ['host', 'port'];
+///     bool get hasEnv => env.isEveryDefined(_requiredEnvVars);
+export 'package:dotenv/src/dotenv.dart';
