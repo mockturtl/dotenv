@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
-import 'package:dotenv/dotenv.dart' as dotenv;
+import 'package:dotenv/dotenv.dart';
 
 final _argPsr = new ArgParser()
   ..addFlag('help', abbr: 'h', negatable: false, help: 'Print this help text.')
@@ -9,9 +9,14 @@ final _argPsr = new ArgParser()
       abbr: 'f',
       defaultsTo: '.env',
       help:
-          'File to read.\nProvides environment variable definitions, one per line.');
+          'File to read.\nProvides environment variable definitions, one per line.')
+  ..addFlag(
+    'skip-platform',
+    abbr: 's',
+    help: 'Skip Platform environment variables',
+  );
 
-/// Prints the [env] map.
+/// Prints the [dotEnv] map.
 ///
 /// ## usage
 ///
@@ -20,9 +25,18 @@ void main(List<String> argv) {
   var opts = _argPsr.parse(argv);
 
   if (opts['help'] == true) return _usage();
+  var file = opts['file'] as String;
+  if (opts.arguments.contains('-s')) {
+    _loadAndPrint(DotEnv(), file);
+    return;
+  }
 
-  dotenv.load(opts['file'] as String);
-  _p(dotenv.env);
+  _loadAndPrint(dotEnv, file);
+}
+
+void _loadAndPrint(DotEnv dotEnv, String file) {
+  dotEnv.load(file);
+  _p(dotEnv.env);
 }
 
 void _usage() {

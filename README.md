@@ -33,7 +33,7 @@ An _environment_ is the set of variables known to a process (say, `PATH`, `PORT`
 It is desirable to mimic the production environment during development (testing,
 staging, ...) by reading these values from a file.
 
-This library parses that file and merges its values with the built-in
+This library parses that file and optionally merges its values with the built-in
 [`Platform.environment`][docs-io] map.
 
 [docs-io]: https://api.dartlang.org/apidocs/channels/stable/dartdoc-viewer/dart:io.Platform#id_environment
@@ -57,7 +57,8 @@ Run:
 
 ```sh
 $ dart pub global run dotenv:new  # create a .env file and add it to .gitignore
-$ dart pub global run dotenv      # load the file and print the environment to stdout
+$ dart pub global run dotenv      # load the file and print all the environment variables to stdout
+$ dart pub global run dotenv -s     # load the file and print only the file environment variables to stdout
 ```
 
 #### discussion

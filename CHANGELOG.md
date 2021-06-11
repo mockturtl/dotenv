@@ -9,6 +9,14 @@ Release notes are available on [github][notes].
 [pub-semver-readme]: https://pub.dartlang.org/packages/pub_semver
 [notes]: https://github.com/mockturtl/dotenv/releases
 
+3.1.0
+-----
+
+- DotEnv is now class based
+- DotEnv does not load Platform.environment by default, use dotEnv instance for previous behavior. Existing methods `load` `clean` `isEveryDefined` and `env` work just like before. i.e no breaking change
+- Variables from env can be accessed directly using array accessor, dotEnv['API_KEY'] works just like dotEnv.env['API_KEY']
+- `dart pub global run dotenv -s` now allows skipping `Platform.environment` variables
+
 3.0.0
 -----
 
