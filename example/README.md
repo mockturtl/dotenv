@@ -9,7 +9,7 @@ usage
 From this directory, run
 
 ```sh
-$ dart example.dart
+$ dart run example.dart
 ```
 
 ###### setup

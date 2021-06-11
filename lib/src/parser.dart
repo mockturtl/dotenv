@@ -1,4 +1,6 @@
-part of dotenv;
+import 'dart:io';
+
+import 'package:meta/meta.dart';
 
 /// Creates key-value pairs from strings formatted as environment
 /// variable definitions.
@@ -14,7 +16,15 @@ class Parser {
   /// [Parser] methods are pure functions.
   const Parser();
 
-  /// Creates a [Map](dart:core) suitable for merging into [Platform.environment](dart:io).
+  /// Substitutes $bash_vars in [val] with values from [env].
+  @visibleForTesting
+  String interpolate(String val, Map<String, String> env) =>
+      val.replaceAllMapped(_bashVar, (m) {
+        var k = m.group(2)!;
+        return (!_has(env, k)) ? _tryPlatformEnv(k) ?? '' : env[k] ?? '';
+      });
+
+  /// Creates a [Map] suitable for merging with [Platform.environment].
   /// Duplicate keys are silently discarded.
   Map<String, String> parse(Iterable<String> lines) {
     var out = <String, String>{};
@@ -48,13 +58,9 @@ class Parser {
     return {k: interpolate(v, env)};
   }
 
-  /// Substitutes $bash_vars in [val] with values from [env].
+  /// Strips comments (trailing or whole-line).
   @visibleForTesting
-  String interpolate(String val, Map<String, String> env) =>
-      val.replaceAllMapped(_bashVar, (m) {
-        var k = m.group(2)!;
-        return (!_has(env, k)) ? _tryPlatformEnv(k) ?? '' : env[k] ?? '';
-      });
+  String strip(String line) => line.replaceAll(_comment, '').trim();
 
   /// If [val] is wrapped in single or double quotes, returns the quote character.
   /// Otherwise, returns the empty string.
@@ -64,24 +70,20 @@ class Parser {
     return _surroundQuotes.firstMatch(val)!.group(1)!;
   }
 
+  /// Omits 'export' keyword.
+  @visibleForTesting
+  String swallow(String line) => line.replaceAll(_keyword, '').trim();
+
   /// Removes quotes (single or double) surrounding a value.
   @visibleForTesting
   String unquote(String val) =>
       val.replaceFirstMapped(_surroundQuotes, (m) => m[2]!).trim();
 
-  /// Strips comments (trailing or whole-line).
-  @visibleForTesting
-  String strip(String line) => line.replaceAll(_comment, '').trim();
-
-  /// Omits 'export' keyword.
-  @visibleForTesting
-  String swallow(String line) => line.replaceAll(_keyword, '').trim();
-
-  bool _isValid(String s) => s.isNotEmpty && s.contains('=');
-
   /// [null] is a valid value in a Dart map, but the env var representation is empty string, not the string 'null'
   bool _has(Map<String, String> map, String key) =>
       map.containsKey(key) && map[key] != null;
+
+  bool _isValid(String s) => s.isNotEmpty && s.contains('=');
 
   String? _tryPlatformEnv(String key) {
     if (!_has(Platform.environment, key)) return '';
