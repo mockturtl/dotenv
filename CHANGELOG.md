@@ -6,8 +6,8 @@ This project follows [pub-flavored semantic versioning][pub-semver]. ([more][pub
 [pub-semver]: https://www.dartlang.org/tools/pub/versioning.html#semantic-versions
 [pub-semver-readme]: https://pub.dartlang.org/packages/pub_semver
 
-HEAD
-----
+4.0.0
+-----
 
 - BREAKING: top-level functions have been removed.  Use a `DotEnv()` instance instead.
 - BREAKING: the underlying `Map<String, String>` is no longer exposed.  Use the forwarding methods on `DotEnv` instead.
