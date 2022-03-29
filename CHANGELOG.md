@@ -14,6 +14,7 @@ HEAD
 - BREAKING: by default, the underlying map does **not** include `Platform.environment`.
   - Libraries should use `DotEnv(includePlatformEnvironment: true)`.
   - The `dotenv` command should use the `--merge-platform-vars` flag.
+- BREAKING: duplicate keys are now **overwritten**, instead of ignored.
 - [feat] the `DotEnv.load()` method accepts multiple file paths.
 
 3.0.0
