@@ -6,7 +6,7 @@ This project follows [pub-flavored semantic versioning][pub-semver]. ([more][pub
 [pub-semver]: https://www.dartlang.org/tools/pub/versioning.html#semantic-versions
 [pub-semver-readme]: https://pub.dartlang.org/packages/pub_semver
 
-## HEAD
+## 4.0.1
 
 - [fix] return `null` on missing key
 
