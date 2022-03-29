@@ -19,7 +19,7 @@ void main() {
     test('it handles escaped quotes within values', subj.unquote_escape);
 
     test('it skips empty lines', subj.parse_empty);
-    test('it ignores duplicate keys', subj.parse_dup);
+    test('it overwrites duplicate keys', subj.parse_dup);
     test('it substitutes known variables into other values', subj.parse_subs);
     test('it discards surrounding quotes', subj.parse_quot);
 
@@ -83,7 +83,7 @@ class ParserTest {
 
   void parse_dup() {
     var out = _psr.parse(['foo=bar', 'foo=baz']);
-    expect(out, equals({'foo': 'bar'}));
+    expect(out, equals({'foo': 'baz'}));
   }
 
   void parse_empty() {

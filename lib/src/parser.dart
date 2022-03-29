@@ -31,7 +31,7 @@ class Parser {
     lines.forEach((line) {
       var kv = parseOne(line, env: out);
       if (kv.isEmpty) return;
-      out.putIfAbsent(kv.keys.single, () => kv.values.single);
+      out[kv.keys.single] = kv.values.single;
     });
     return out;
   }
