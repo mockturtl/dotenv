@@ -28,6 +28,16 @@ void main() {
       });
     });
 
+    group('operator[]', () {
+      test('reads a value', () {
+        expect(subj['x'], '1');
+      });
+
+      test('returns null when key is absent', () {
+        expect(subj['nope'], null);
+      });
+    });
+
     group('addAll:', () {
       test('inserts new entries', () {
         subj.map.addAll(_extra);

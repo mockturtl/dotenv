@@ -30,8 +30,8 @@ class DotEnv {
 
   /// Reads the value for [key] from the underlying map.
   ///
-  /// If [key] is absent, this is an error.  See [isDefined].
-  String operator [](String key) => _map[key]!;
+  /// Returns `null` if [key] is absent.  See [isDefined].
+  String? operator [](String key) => _map[key];
 
   /// Calls [Map.addAll] on the underlying map.
   void addAll(Map<String, String> other) => _map.addAll(other);
