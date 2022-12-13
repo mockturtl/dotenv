@@ -65,6 +65,29 @@ void main() {
         expect(subj['some_test'], 'value');
       });
     });
+
+    group('getOrElse', () {
+      test('reads a value', () {
+        expect(
+            subj.getOrElse('x', () => throw Exception('Should get value of 1')),
+            '1');
+      });
+
+      test('uses orElse when the key is missing', () {
+        var got = subj.getOrElse('nope', () => 'value');
+        expect(got, 'value');
+      });
+
+      test('orElse can throw', () {
+        expect(() => subj.getOrElse('nope', () => throw Exception()),
+            throwsA(isA<Exception>()));
+      });
+
+      test('uses orElse when the value is empty', () {
+        var got = subj.getOrElse('empty', () => 'value');
+        expect(got, 'value');
+      });
+    });
   });
 }
 

@@ -44,6 +44,13 @@ class DotEnv {
     if (includePlatformEnvironment) _addPlatformEnvironment();
   }
 
+  /// Equivalent to [operator []] when the underlying map contains [key],
+  /// and the value is non-empty.  See [isDefined].
+  ///
+  /// Otherwise, calls [orElse] and returns the value.
+  String getOrElse(String key, String Function() orElse) =>
+      isDefined(key) ? _map[key]! : orElse();
+
   /// True if [key] has a nonempty value in the underlying map.
   ///
   /// Differs from [Map.containsKey] by excluding empty values.
