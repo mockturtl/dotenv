@@ -76,4 +76,12 @@ class DotEnv {
     }
     return f.readAsLinesSync();
   }
+
+  String getOrElse(String key, String Function() orElse) {
+    if (map.containsKey(key)) {
+      return _map[key]!;
+    } else {
+      return orElse();
+    }
+  }
 }

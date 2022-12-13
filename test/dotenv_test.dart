@@ -65,6 +65,22 @@ void main() {
         expect(subj['some_test'], 'value');
       });
     });
+    group('getOrElse', () {
+      test('reads a value', () {
+        expect(
+          subj.getOrElse('x', () => throw Exception('Should get value of 1')),
+          '1',
+        );
+      });
+      test('calls orElse when value is not defined', () {
+        final got = subj.getOrElse('nope', () => 'value');
+        expect(got, 'value');
+        expect(
+          () => subj.getOrElse('nope', () => throw Exception()),
+          throwsA(isA<Exception>()),
+        );
+      });
+    });
   });
 }
 
