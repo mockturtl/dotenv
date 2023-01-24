@@ -39,7 +39,7 @@ class Parser {
   /// Parses a single line into a key-value pair.
   @visibleForTesting
   Map<String, String> parseOne(String line,
-      {Map<String, String> env: const {}}) {
+      {Map<String, String> env = const {}}) {
     var stripped = strip(line);
     if (!_isValid(stripped)) return {};
 
