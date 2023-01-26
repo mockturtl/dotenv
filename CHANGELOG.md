@@ -14,8 +14,7 @@ This project follows [pub-flavored semantic versioning][pub-semver]. ([more][pub
 
 - [fix] return `null` on missing key
 
-4.0.0
------
+## 4.0.0
 
 - BREAKING: top-level functions have been removed.  Use a `DotEnv()` instance instead.
 - BREAKING: the underlying `Map<String, String>` is no longer exposed.  Use the forwarding methods on `DotEnv` instead.
@@ -25,18 +24,15 @@ This project follows [pub-flavored semantic versioning][pub-semver]. ([more][pub
 - BREAKING: duplicate keys are now **overwritten**, instead of ignored.
 - [feat] the `DotEnv.load()` method accepts multiple file paths.
 
-3.0.0
------
+## 3.0.0
 
 - BREAKING: bumps min Dart version to 2.12 for nullsafety [#27][]
 
-2.0.0
------
+## 2.0.0
 
 - BREAKING: change parser to handle `=` in values, e.g. base64 [#21][]
 
-1.0.0
------
+## 1.0.0
 
 - Dart 2 compatible. [#16][]
 
