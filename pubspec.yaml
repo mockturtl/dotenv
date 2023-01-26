@@ -11,6 +11,6 @@ dependencies:
   meta: ^1.7.0
 
 dev_dependencies:
-  tidy: ^2.16.0
-  test: ^1.20.2
-  collection: ^1.16.0
+  tidy: ^2.19.0
+  test: ^1.22.2
+  collection: ^1.17.1
