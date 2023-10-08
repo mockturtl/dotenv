@@ -16,9 +16,13 @@ class DotEnv {
   /// Otherwise, it will be empty until populated by [load].
   final bool includePlatformEnvironment;
 
+  /// If true, when loading a list of env files, no message will be written to
+  /// [stderr] when a file cannot be found.
+  final bool silent;
+
   final _map = <String, String>{};
 
-  DotEnv({this.includePlatformEnvironment = false}) {
+  DotEnv({this.includePlatformEnvironment = false, this.silent = false}) {
     if (includePlatformEnvironment) _addPlatformEnvironment();
   }
 
@@ -78,7 +82,9 @@ class DotEnv {
 
   List<String> _verify(File f) {
     if (!f.existsSync()) {
-      stderr.writeln('[dotenv] Load failed: file not found: $f');
+      if (!silent) {
+        stderr.writeln('[dotenv] Load failed: file not found: $f');
+      }
       return [];
     }
     return f.readAsLinesSync();
