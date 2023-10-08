@@ -16,9 +16,12 @@ class DotEnv {
   /// Otherwise, it will be empty until populated by [load].
   final bool includePlatformEnvironment;
 
+  /// If true, suppress "file not found" messages on [stderr] during [load].
+  final bool quiet;
+
   final _map = <String, String>{};
 
-  DotEnv({this.includePlatformEnvironment = false}) {
+  DotEnv({this.includePlatformEnvironment = false, this.quiet = false}) {
     if (includePlatformEnvironment) _addPlatformEnvironment();
   }
 
@@ -61,9 +64,10 @@ class DotEnv {
   /// See [isDefined].
   bool isEveryDefined(Iterable<String> vars) => vars.every(isDefined);
 
-  /// Parses environment variables in [filenames] and adds them to the underlying [Map].
+  /// Parses environment variables from each path in [filenames], and adds them
+  /// to the underlying [Map].
   ///
-  /// Logs to [stderr] if any file does not exist.
+  /// Logs to [stderr] if any file does not exist; see [quiet].
   void load(
       [Iterable<String> filenames = const ['.env'],
       Parser psr = const Parser()]) {
@@ -78,7 +82,7 @@ class DotEnv {
 
   List<String> _verify(File f) {
     if (!f.existsSync()) {
-      stderr.writeln('[dotenv] Load failed: file not found: $f');
+      if (!quiet) stderr.writeln('[dotenv] Load failed: file not found: $f');
       return [];
     }
     return f.readAsLinesSync();
