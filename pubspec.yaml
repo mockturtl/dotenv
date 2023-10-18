@@ -1,5 +1,5 @@
 name: dotenv
-version: 4.1.0
+version: 4.2.0
 
 description: Load environment variables from a `.env` file.
 homepage: https://github.com/mockturtl/dotenv
