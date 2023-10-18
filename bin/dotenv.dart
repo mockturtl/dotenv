@@ -16,12 +16,16 @@ void main(List<String> argv) {
   var files = opts[_flagFiles] as List<String>;
   var withProcessVars = opts.wasParsed(_flagMergePlatformVars);
 
-  _loadAndPrint(DotEnv(includePlatformEnvironment: withProcessVars), files);
+  var quiet = opts[_flagQuiet] as bool;
+
+  _loadAndPrint(
+      DotEnv(includePlatformEnvironment: withProcessVars, quiet: quiet), files);
 }
 
 const _flagFiles = 'filenames';
 const _flagHelp = 'help';
 const _flagMergePlatformVars = 'merge-platform-vars';
+const _flagQuiet = 'quiet';
 
 final _argPsr = new ArgParser()
   ..addFlag(_flagHelp,
@@ -34,6 +38,10 @@ final _argPsr = new ArgParser()
   ..addFlag(_flagMergePlatformVars,
       abbr: 'p',
       help: 'Merge process variables from Platform.environment.',
+      defaultsTo: false)
+  ..addFlag(_flagQuiet,
+      abbr: 'q',
+      help: 'Suppress "file not found" messages on stderr.',
       defaultsTo: false);
 
 void _loadAndPrint(DotEnv dotEnv, List<String> files) {
