@@ -9,6 +9,7 @@ This project follows [pub-flavored semantic versioning][pub-semver]. ([more][pub
 ## HEAD
 
 - [feat] add optional parameter `quiet` to `DotEnv` constructor
+- [feat] add `--quiet` arg to `dotenv` command
 
 ## 4.1.0
 
